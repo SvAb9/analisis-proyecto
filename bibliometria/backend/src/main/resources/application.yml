@@ -1,0 +1,5 @@
+server:
+  port: 8080
+app:
+  corpus-path: ${CORPUS_PATH:data/corpus}
+  cache-path: data/cache

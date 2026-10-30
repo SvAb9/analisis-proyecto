@@ -1,0 +1,12 @@
+# Orquesta backend y frontend
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - CORPUS_PATH=/app/data/corpus
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "4200:80"
