@@ -24,7 +24,18 @@
       <artifactId>pdfbox</artifactId>
       <version>3.0.3</version>
     </dependency>
-    <!-- Agregar aquí el runtime de embeddings elegido (ONNX Runtime / DJL) -->
+    <!-- R1, embeddings de oración: ONNX Runtime ejecuta la red y el tokenizador de Hugging Face
+         (vía DJL) convierte el texto en ids. Ninguna de las dos calcula similitudes. -->
+    <dependency>
+      <groupId>com.microsoft.onnxruntime</groupId>
+      <artifactId>onnxruntime</artifactId>
+      <version>1.20.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ai.djl.huggingface</groupId>
+      <artifactId>tokenizers</artifactId>
+      <version>0.30.0</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>

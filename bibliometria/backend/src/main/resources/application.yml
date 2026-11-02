@@ -3,3 +3,7 @@ server:
 app:
   corpus-path: ${CORPUS_PATH:data/corpus}
   cache-path: data/cache
+  # R1: modelos preentrenados para los algoritmos de similitud con IA
+  modelos:
+    oracion: ${MODELO_ORACION_PATH:data/modelos/all-MiniLM-L6-v2}
+    palabras: ${MODELO_PALABRAS_PATH:data/modelos/glove/glove.6B.100d.corpus.txt}

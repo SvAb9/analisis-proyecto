@@ -4,3 +4,5 @@ node_modules/
 *.iml
 .vscode/
 backend/data/cache/
+# R1: el modelo ONNX pesa ~90 MB; se descarga con backend/scripts/descargar-modelos.sh
+backend/data/modelos/all-MiniLM-L6-v2/
