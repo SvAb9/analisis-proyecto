@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+.contenedor {
+  overflow-x: auto;
+}
+
+svg {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+  color: inherit;
+}
+
+.rama {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  opacity: 0.8;
+}
+
+.hoja {
+  text-anchor: end;
+  dominant-baseline: middle;
+  font-size: 12px;
+  fill: currentColor;
+}
+
+.eje {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.45;
+}
+
+.marca {
+  font-size: 11px;
+  fill: currentColor;
+  opacity: 0.7;
+}
+
+.leyenda {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  text-align: center;
+}

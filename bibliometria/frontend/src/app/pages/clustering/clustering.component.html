@@ -1,0 +1,96 @@
+<section class="pagina">
+  <header>
+    <h1>Agrupamiento jerárquico</h1>
+    <p class="subtitulo">
+      Agrupa los 20 artículos según qué tan parecidos son sus abstracts. Se construye un árbol con cada uno de
+      los tres criterios de enlace para ver cuál agrupa mejor.
+    </p>
+  </header>
+
+  <div class="controles">
+    <label for="similitud">Algoritmo de similitud</label>
+    <select id="similitud" #selector (change)="seleccionado.set(selector.value)">
+      @for (nombre of algoritmos(); track nombre) {
+        <option [value]="nombre" [selected]="nombre === seleccionado()">{{ nombre }}</option>
+      }
+    </select>
+    <button type="button" (click)="agrupar()" [disabled]="cargando() || algoritmos().length === 0">
+      {{ cargando() ? 'Agrupando…' : 'Agrupar' }}
+    </button>
+  </div>
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (respuesta(); as r) {
+    <h2>Comparación de los criterios</h2>
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Criterio de enlace</th>
+            <th scope="col" class="num">Correlación cofenética</th>
+            <th scope="col" class="num">Silueta (mejor corte)</th>
+            <th scope="col" class="num">Tiempo (ms)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of r.resultados; track c.criterio) {
+            <tr>
+              <th scope="row">{{ c.criterio }}</th>
+              <td class="num" [class.mejor]="c.criterio === mejorCofenetica()">
+                {{ c.correlacionCofenetica | number: '1.3-3' }}
+                @if (c.criterio === mejorCofenetica()) {
+                  <span class="insignia">mejor</span>
+                }
+              </td>
+              <td class="num" [class.mejor]="c.criterio === mejorSilueta()">
+                {{ c.silhouette | number: '1.3-3' }}
+                @if (c.criterio === mejorSilueta()) {
+                  <span class="insignia">mejor</span>
+                }
+              </td>
+              <td class="num">{{ c.tiempoNs / 1000000 | number: '1.3-3' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <details class="ayuda">
+      <summary>¿Cómo leer estas métricas?</summary>
+      <ul>
+        <li>
+          <strong>Correlación cofenética:</strong> qué tan fiel es el árbol a las distancias originales entre
+          artículos. Cuanto más cerca de 1, mejor.
+        </li>
+        <li>
+          <strong>Silueta:</strong> qué tan compactos y separados quedan los grupos al cortar el árbol en el
+          mejor número de grupos. Va de −1 a 1; cuanto más alta, mejor.
+        </li>
+      </ul>
+    </details>
+
+    <h2>Dendrogramas</h2>
+    <label class="opcion">
+      <input type="checkbox" #acercarCaja [checked]="acercar()" (change)="acercar.set(acercarCaja.checked)" />
+      Acercar el eje a donde ocurren las uniones
+    </label>
+    <div class="arboles">
+      @for (c of r.resultados; track c.criterio) {
+        <article class="tarjeta">
+          <h3>{{ c.criterio }} linkage</h3>
+          <app-dendrograma
+            [arbol]="c.arbol"
+            [etiquetas]="etiquetas()"
+            [ajustar]="acercar()"
+            [descripcion]="'Dendrograma con enlace ' + c.criterio + ' usando ' + seleccionado()"
+          />
+        </article>
+      }
+    </div>
+  } @else if (!cargando() && !error()) {
+    <p class="vacio">Elige un algoritmo de similitud y pulsa «Agrupar» para ver los resultados.</p>
+  }
+</section>
