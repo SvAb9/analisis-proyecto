@@ -77,8 +77,8 @@ const ETIQUETAS: Record<string, { etiqueta: string; tipo: 'CLASICO' | 'IA'; crud
 };
 
 // Rampa secuencial azul (claro -> oscuro) para la matriz: similitud 0 -> paso 100, 1 -> paso 700.
-const RAMPA = ['#dcefe2', '#c9e6d4', '#b4dcc4', '#9dd1b3', '#85c5a1', '#6bb88e', '#50aa7a',
-  '#17804f', '#127547', '#0d6a3f', '#085e37', '#044f2d', '#003d20'];
+const RAMPA = ['#cde2fb', '#b7d3f6', '#9ec5f4', '#86b6ef', '#6da7ec', '#5598e7', '#3987e5',
+  '#2a78d6', '#256abf', '#1c5cab', '#184f95', '#104281', '#0d366b'];
 
 @Component({
   selector: 'app-similitud',
@@ -240,7 +240,7 @@ const RAMPA = ['#dcefe2', '#c9e6d4', '#b4dcc4', '#9dd1b3', '#85c5a1', '#6bb88e',
     .lista label { display: flex; gap: 0.55rem; align-items: baseline; padding: 0.5rem 0.3rem; cursor: pointer; }
     .lista label:hover { background: var(--hundido); }
     .lista input { align-self: center; }
-    .id { flex: none; min-width: 1.5em; text-align: right; font: 600 0.98rem var(--serif); font-variant-numeric: lining-nums; color: var(--acento); }
+    .id { flex: none; min-width: 1.5em; text-align: right; font: 600 0.98rem var(--titulo); font-variant-numeric: lining-nums; color: var(--acento); }
     .vacio { margin: 0.7rem 0 0; }
     .algoritmo, .traza { display: flex; gap: 0.5rem; align-items: center; margin: 0.35rem 0; cursor: pointer; }
     .traza { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--linea); font-size: 0.86rem; color: var(--tinta-2); }
@@ -254,7 +254,7 @@ const RAMPA = ['#dcefe2', '#c9e6d4', '#b4dcc4', '#9dd1b3', '#85c5a1', '#6bb88e',
     .detalle { font-size: 0.86rem; color: var(--tinta-2); }
     .matrices { display: flex; flex-wrap: wrap; gap: 1.25rem; }
     .matrices figure { margin: 0; padding: 1rem 1.2rem; background: var(--superficie); border: 1px solid var(--linea); border-radius: 12px; overflow-x: auto; max-width: 100%; }
-    figcaption { margin-bottom: 0.6rem; font: 600 1rem var(--serif); }
+    figcaption { margin-bottom: 0.6rem; font: 600 1rem var(--titulo); }
     figcaption small { font: 400 0.76rem var(--sans); color: var(--tinta-3); }
     .matriz { width: auto; }
     .matriz th, .matriz td { padding: 0.28rem 0.42rem; text-align: center; border: 0; font: 400 0.8rem var(--mono); font-variant-numeric: tabular-nums; }

@@ -3,14 +3,14 @@
 .opciones select { flex: 1 1 16rem; min-width: 0; }
 .titular { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.4rem 1.6rem; margin: 2.25rem 0 1rem; }
 .titular .antetitulo { margin-bottom: 0.1rem; }
-.buscado { margin: 0; font: 600 1.7rem/1.2 var(--serif); }
+.buscado { margin: 0; font: 600 1.7rem/1.2 var(--titulo); }
 .total { margin: 0 0 0.15rem; color: var(--tinta-2); }
-.total strong { color: var(--tinta); font-family: var(--serif); font-size: 1.2rem; font-variant-numeric: lining-nums; }
+.total strong { color: var(--tinta); font-family: var(--titulo); font-size: 1.2rem; font-variant-numeric: lining-nums; }
 .titular .insignia { margin-bottom: 0.3rem; white-space: normal; }
 .algoritmos { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
 .algoritmo { margin: 0; }
 .etiqueta-dato { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--tinta-3); }
-.dato { margin: 0 0 0.4rem; font: 600 1.85rem/1.2 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
+.dato { margin: 0 0 0.4rem; font: 600 1.85rem/1.2 var(--titulo); font-variant-numeric: lining-nums tabular-nums; }
 .pista { display: block; height: 0.4rem; background: var(--hundido); border-radius: 4px; }
 .pista span { display: block; height: 100%; min-width: 2px; background: var(--serie); border-radius: 4px; }
 .algoritmo dl { margin: 0.9rem 0 0; }
@@ -32,7 +32,7 @@
 .pasos thead th { position: sticky; top: 0; }
 .datos { font: 400 0.78rem/1.45 var(--mono); color: var(--tinta-2); overflow-wrap: anywhere; }
 .cabeza-aparicion { display: flex; align-items: baseline; gap: 0.7rem; margin-bottom: 0.45rem; }
-.id { flex: none; font: 600 1.05rem var(--serif); font-variant-numeric: lining-nums; color: var(--acento); }
+.id { flex: none; font: 600 1.05rem var(--titulo); font-variant-numeric: lining-nums; color: var(--acento); }
 .cabeza-aparicion h3 { flex: 1; min-width: 0; margin: 0; }
 .conteo { flex: none; font-size: 0.8rem; color: var(--tinta-3); white-space: nowrap; }
 .fragmento { margin: 0.35rem 0; padding-left: 0.8rem; border-left: 2px solid var(--linea); font: 400 0.84rem/1.65 var(--mono); color: var(--tinta-2); }

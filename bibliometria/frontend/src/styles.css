@@ -1,66 +1,35 @@
 /* Sistema visual de la aplicación: colores, tipografía y componentes comunes a todas las pantallas. */
-@import '@fontsource-variable/source-serif-4/index.css';
 @import '@fontsource/ibm-plex-sans/latin-400.css';
 @import '@fontsource/ibm-plex-sans/latin-500.css';
 @import '@fontsource/ibm-plex-sans/latin-600.css';
 @import '@fontsource/ibm-plex-mono/latin-400.css';
 
 :root {
-  color-scheme: light dark;
-  --papel: #f7f5ef;
-  --superficie: #fffefb;
-  --hundido: #efece3;
-  --tinta: #1a211c;
-  --tinta-2: #4f5a52;
-  --tinta-3: #6d776f;
-  --linea: #ddd9cc;
-  --linea-fuerte: #c6c2b3;
-  --acento: #00703c;
-  --acento-oscuro: #005a30;
-  --acento-suave: #e1efe6;
+  color-scheme: light;
+  --papel: #ffffff;
+  --superficie: #ffffff;
+  --hundido: #f3f6fb;
+  --tinta: #16233b;
+  --tinta-2: #475569;
+  --tinta-3: #64748b;
+  --linea: #e4e9f1;
+  --linea-fuerte: #cbd5e3;
+  --acento: #1d5fd1;
+  --acento-oscuro: #174ca8;
+  --acento-suave: #e8f0fd;
   --sobre-acento: #ffffff;
-  --marca: #f8df8b;
-  --sobre-marca: #2b2308;
-  --serie: #00703c;
-  --serie-hover: #00451f;
-  --ok-fondo: #dcefe2;
-  --ok-tinta: #0f4a2a;
-  --alerta-fondo: #fbe4df;
-  --alerta-tinta: #8a2415;
-  --lateral: #0f2a1c;
-  --lateral-tinta: #dfe9e1;
-  --lateral-tenue: #93aa9b;
-  --sombra: 0 1px 2px rgb(30 40 30 / 0.05), 0 8px 24px -14px rgb(30 40 30 / 0.2);
-  --serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --marca: #cfe0fb;
+  --sobre-marca: #0f2c5e;
+  --serie: #2f74e0;
+  --serie-hover: #174ca8;
+  --ok-fondo: #e8f0fd;
+  --ok-tinta: #174ca8;
+  --alerta-fondo: #fdeceb;
+  --alerta-tinta: #a4261c;
+  --sombra: 0 1px 2px rgb(22 35 59 / 0.04), 0 6px 18px -12px rgb(22 35 59 / 0.14);
+  --titulo: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --papel: #111613;
-    --superficie: #181f1a;
-    --hundido: #222a24;
-    --tinta: #edf1ec;
-    --tinta-2: #b9c4bc;
-    --tinta-3: #94a199;
-    --linea: #2e3831;
-    --linea-fuerte: #435047;
-    --acento: #54c088;
-    --acento-oscuro: #74d3a1;
-    --acento-suave: #1d3327;
-    --sobre-acento: #06170d;
-    --marca: #e7c75d;
-    --sobre-marca: #241c02;
-    --serie: #54c088;
-    --serie-hover: #9be4bd;
-    --ok-fondo: #1d3327;
-    --ok-tinta: #a4e3c0;
-    --alerta-fondo: #3d1f19;
-    --alerta-tinta: #f7b9ab;
-    --lateral: #0b120d;
-    --sombra: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 26px -16px rgb(0 0 0 / 0.7);
-  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -91,9 +60,9 @@ code { font-family: var(--mono); font-size: 0.88em; }
   text-transform: uppercase;
   color: var(--acento);
 }
-h1, h2, h3 { font-family: var(--serif); color: var(--tinta); text-wrap: balance; }
-h1 { margin: 0 0 0.6rem; font-size: clamp(1.9rem, 3.2vw, 2.55rem); line-height: 1.12; font-weight: 600; letter-spacing: -0.015em; }
-h2 { margin: 2.75rem 0 0.9rem; font-size: 1.4rem; line-height: 1.25; font-weight: 600; letter-spacing: -0.005em; }
+h1, h2, h3 { font-family: var(--titulo); color: var(--tinta); text-wrap: balance; }
+h1 { margin: 0 0 0.6rem; font-size: clamp(1.9rem, 3.2vw, 2.55rem); line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; }
+h2 { margin: 2.75rem 0 0.9rem; font-size: 1.4rem; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
 h3 { margin: 0 0 0.35rem; font-size: 1.08rem; line-height: 1.3; font-weight: 600; }
 .subtitulo { margin: 0; max-width: 66ch; font-size: 1.05rem; color: var(--tinta-2); }
 .nota { margin: 0.6rem 0; max-width: 78ch; font-size: 0.88rem; color: var(--tinta-3); }
@@ -184,7 +153,7 @@ thead th.num { font-family: var(--sans); font-size: 0.73rem; }
 .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1px; margin: 0 0 1.5rem; background: var(--linea); border: 1px solid var(--linea); border-radius: 12px; overflow: hidden; }
 .cifras > div { padding: 1rem 1.2rem; background: var(--superficie); }
 .cifras dt { font-size: 0.78rem; color: var(--tinta-3); }
-.cifras dd { margin: 0.1rem 0 0; font-family: var(--serif); font-size: 1.8rem; font-weight: 600; line-height: 1.15; font-variant-numeric: tabular-nums lining-nums; }
+.cifras dd { margin: 0.1rem 0 0; font-family: var(--titulo); font-size: 1.6rem; font-weight: 600; line-height: 1.15; font-variant-numeric: tabular-nums lining-nums; }
 
 details > summary { cursor: pointer; }
 
