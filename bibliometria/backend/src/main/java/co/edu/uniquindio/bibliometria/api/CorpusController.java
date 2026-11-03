@@ -10,14 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * Lista artículos y devuelve título, autores y abstract.
- *
- * <ul>
- *   <li>GET /api/corpus: los 20 artículos, en orden</li>
- *   <li>GET /api/corpus/{id}: un artículo, o 404 si no existe</li>
- * </ul>
- */
+/** Expone los artículos del corpus. */
 @RestController
 @RequestMapping("/api/corpus")
 public class CorpusController {

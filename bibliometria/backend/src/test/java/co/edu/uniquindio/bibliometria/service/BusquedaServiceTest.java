@@ -15,9 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * Pruebas del servicio de R3 con un corpus armado a mano.
- */
+/** Pruebas de BusquedaService. */
 class BusquedaServiceTest {
 
     private final BusquedaService servicio = new BusquedaService(new CorpusRepository(List.of(

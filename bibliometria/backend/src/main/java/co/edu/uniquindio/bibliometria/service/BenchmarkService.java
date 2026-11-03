@@ -12,13 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Mide tiempos repetidos y agrega resultados.
- *
- * <p>Procedimiento: primero se descarta un calentamiento para que el JIT compile el código; luego, en cada
- * ronda, cada algoritmo recorre los 20 abstracts, rotando el orden para que ninguno se beneficie siempre de
- * la caché que deja el anterior. Se reporta la mediana, que no alteran las pausas aisladas de la JVM.</p>
- */
+/** Repite las búsquedas y calcula la mediana de los tiempos. */
 @Service
 public class BenchmarkService {
 

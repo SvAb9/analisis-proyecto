@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Guarda los 20 artículos en memoria.
- * Se llena en el constructor para que el corpus ya esté disponible cuando se inyecte en los servicios.
- */
+/** Guarda los artículos del corpus en memoria. */
 @Repository
 public class CorpusRepository implements RepositorioCorpus {
 

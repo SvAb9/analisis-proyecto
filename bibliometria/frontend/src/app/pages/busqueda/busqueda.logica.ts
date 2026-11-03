@@ -1,15 +1,12 @@
 import { PasoTraza } from '../../models/api.models';
 
-/** Un trozo de texto; marcado indica que hace parte de una ocurrencia. */
+/** Prepara los fragmentos resaltados y los desplazamientos de la pantalla de búsqueda. */
+
 export interface Trozo {
   texto: string;
   marcado: boolean;
 }
 
-/**
- * Convierte posiciones del patrón en fragmentos de texto con las ocurrencias marcadas. Las ocurrencias
- * solapadas se unen y las que quedan cerca comparten fragmento.
- */
 export function fragmentos(texto: string, posiciones: number[], largo: number, contexto = 50): Trozo[][] {
   const rangos: [number, number][] = [];
   for (const p of [...posiciones].sort((a, b) => a - b)) {
@@ -55,7 +52,6 @@ export function fragmentos(texto: string, posiciones: number[], largo: number, c
   return resultado;
 }
 
-/** Desplazamiento de cada iteración de la traza, leído del campo datos; omite las tablas iniciales. */
 export function desplazamientos(pasos: PasoTraza[]): { numero: number; valor: number; descripcion: string }[] {
   const salida: { numero: number; valor: number; descripcion: string }[] = [];
   for (const paso of pasos) {

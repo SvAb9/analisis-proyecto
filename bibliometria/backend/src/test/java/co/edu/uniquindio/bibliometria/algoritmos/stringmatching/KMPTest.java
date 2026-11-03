@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas unitarias de KMP con casos de resultado conocido.
- */
+/** Pruebas de KMP. */
 class KMPTest extends ContratoStringMatcherTest {
 
     @Override
@@ -29,7 +27,6 @@ class KMPTest extends ContratoStringMatcherTest {
 
     @Test
     void elTextoNuncaRetrocede() {
-        // Sin retroceso: como máximo 2n comparaciones, incluso en el caso repetitivo.
         String texto = "a".repeat(1000);
         assertTrue(new KMP().buscar("aaab", texto).comparaciones() <= 2L * texto.length());
     }

@@ -3,26 +3,13 @@ package co.edu.uniquindio.bibliometria.algoritmos.stringmatching;
 import co.edu.uniquindio.bibliometria.algoritmos.traza.Traza;
 import co.edu.uniquindio.bibliometria.infra.medicion.Cronometro;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Hash rodante, módulo primo y verificación de colisiones.
- *
- * <p>Compara el hash del patrón con el de cada ventana del texto; la siguiente ventana se obtiene en O(1)
- * quitando el primer carácter y agregando el nuevo. Dos cadenas distintas pueden dar el mismo hash
- * (colisión), así que cada coincidencia de hash se verifica carácter por carácter. Preprocesamiento O(m);
- * búsqueda O(n + m) esperado y O(n·m) en el peor caso, con muchas colisiones. Espacio adicional O(1).</p>
- *
- * <p>{@code comparaciones} cuenta las comparaciones de caracteres al verificar; la comparación de hashes
- * no se cuenta. Las colisiones se registran en la traza; para provocarlas en un caso de estudio se usa
- * un módulo pequeño con {@link #RabinKarp(long, long)}.</p>
- */
+/** Búsqueda exacta con hash rodante y verificación de colisiones. */
 public class RabinKarp implements StringMatcher {
 
     private static final long BASE_POR_DEFECTO = 256;
     private static final long PRIMO_POR_DEFECTO = 1_000_000_007L;
-    /** Mayor valor de la base y del primo para que base * primo y char * primo quepan en un long. */
     private static final long LIMITE = 1L << 31;
 
     private final long base;
@@ -55,16 +42,17 @@ public class RabinKarp implements StringMatcher {
 
         long inicio = Cronometro.ahora();
         long hashPatron = hash(patron, m);
-        long potencia = 1; // base^(m - 1) mod primo: peso del primer carácter de la ventana
+        long potencia = 1;
         for (int i = 1; i < m; i++) {
             potencia = (potencia * base) % primo;
         }
         long preprocesamientoNs = Cronometro.ahora() - inicio;
         if (traza.estaActiva()) {
+            registrarHashPatron(patron, traza);
             traza.registrar("Hash del patrón", "hashPatron=" + hashPatron + ", base=" + base + ", primo=" + primo + ", potencia=" + potencia);
         }
 
-        List<Integer> posiciones = new ArrayList<>();
+        Posiciones posiciones = new Posiciones();
         long comparaciones = 0;
         inicio = Cronometro.ahora();
         long hashVentana = hash(texto, m);
@@ -79,7 +67,7 @@ public class RabinKarp implements StringMatcher {
                     j++;
                 }
                 if (j == m) {
-                    posiciones.add(s);
+                    posiciones.agregar(s);
                 }
                 if (traza.estaActiva()) {
                     traza.registrar(j == m ? "Ocurrencia en la posición " + s : "Colisión en la posición " + s,
@@ -94,15 +82,24 @@ public class RabinKarp implements StringMatcher {
             }
         }
         long busquedaNs = Cronometro.ahora() - inicio;
-        return new ResultadoBusqueda(nombre(), posiciones, comparaciones, preprocesamientoNs, busquedaNs, traza.pasos());
+        return new ResultadoBusqueda(nombre(), posiciones.comoLista(), comparaciones, preprocesamientoNs, busquedaNs, traza.pasos());
     }
 
-    /** Hash polinómico de los primeros m caracteres, por el método de Horner. */
     private long hash(String cadena, int m) {
         long valor = 0;
         for (int i = 0; i < m; i++) {
             valor = (valor * base + cadena.charAt(i)) % primo;
         }
         return valor;
+    }
+
+    private void registrarHashPatron(String patron, Traza traza) {
+        long valor = 0;
+        for (int i = 0; i < patron.length(); i++) {
+            long anterior = valor;
+            valor = (valor * base + patron.charAt(i)) % primo;
+            traza.registrar("Hash del patrón, carácter " + i,
+                    "caracter=" + patron.charAt(i) + ", codigo=" + (int) patron.charAt(i) + ", anterior=" + anterior + ", hash=" + valor);
+        }
     }
 }

@@ -11,9 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas del contrato StringMatcher, comunes a KMP, BoyerMoore y RabinKarp.
- */
+/** Pruebas comunes a los tres algoritmos de búsqueda. */
 abstract class ContratoStringMatcherTest {
 
     abstract StringMatcher algoritmo();
@@ -24,7 +22,6 @@ abstract class ContratoStringMatcherTest {
         return algoritmo().buscar(patron, texto).posiciones();
     }
 
-    /** Referencia ingenua, escrita sin funciones nativas de búsqueda. */
     private static List<Integer> fuerzaBruta(String patron, String texto) {
         List<Integer> resultado = new ArrayList<>();
         for (int s = 0; s + patron.length() <= texto.length(); s++) {

@@ -7,9 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas unitarias de BoyerMoore con casos de resultado conocido.
- */
+/** Pruebas de BoyerMoore. */
 class BoyerMooreTest extends ContratoStringMatcherTest {
 
     @Override
@@ -24,7 +22,6 @@ class BoyerMooreTest extends ContratoStringMatcherTest {
 
     @Test
     void tablaDeSufijoBueno() {
-        // Ejemplo clásico: "abbabab" (desplazamiento[j + 1] al fallar en j).
         assertArrayEquals(new int[] {5, 5, 5, 5, 2, 5, 4, 1}, BoyerMoore.tablaSufijoBueno("abbabab"));
     }
 

@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Acceso al corpus ya procesado.
- */
+/** Da acceso a los artículos del corpus. */
 @Service
 public class CorpusService {
 

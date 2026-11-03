@@ -1,4 +1,4 @@
-# Despliegue (R4). Compila Angular y lo sirve con nginx, que además reenvía /api al backend.
+# Imagen del frontend: compila Angular y lo sirve con nginx.
 FROM node:22-alpine AS compilacion
 WORKDIR /build
 COPY package.json package-lock.json ./

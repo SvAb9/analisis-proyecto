@@ -27,7 +27,7 @@ export interface ArticuloResumen {
   titulo: string;
 }
 
-/** Artículo completo del corpus (GET /api/corpus). */
+/** Tipos de corpus, búsqueda y benchmark. */
 export interface Articulo {
   id: string;
   titulo: string;
@@ -36,20 +36,17 @@ export interface Articulo {
   abstractProcesado: string;
 }
 
-/** Un paso intermedio de un algoritmo. */
 export interface PasoTraza {
   numero: number;
   descripcion: string;
   datos: string;
 }
 
-/** Posiciones (base 0) del patrón en el abstract procesado de un artículo. */
 export interface CoincidenciaBusqueda {
   articuloId: string;
   posiciones: number[];
 }
 
-/** Resultado de un algoritmo de búsqueda sobre los 20 abstracts. */
 export interface ResultadoBusqueda {
   algoritmo: string;
   totalOcurrencias: number;
@@ -66,7 +63,6 @@ export interface BusquedaResponse {
   resultados: ResultadoBusqueda[];
 }
 
-/** Tiempos de un algoritmo en una pasada por los 20 abstracts. */
 export interface MedicionBenchmark {
   algoritmo: string;
   preprocesamientoNs: number;

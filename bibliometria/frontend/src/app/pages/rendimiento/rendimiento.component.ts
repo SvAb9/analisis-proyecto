@@ -9,13 +9,12 @@ const REPETICIONES_POR_DEFECTO = 101;
 const REPETICIONES_MAXIMAS = 1001;
 const NOMBRES: Record<string, string> = { KMP: 'KMP', BoyerMoore: 'Boyer-Moore', RabinKarp: 'Rabin-Karp' };
 
-/** Panel de barras de una sola medida; cada panel tiene su propia escala. */
 interface Panel {
   titulo: string;
   barras: { algoritmo: string; valor: number; ancho: number }[];
 }
 
-/** Gráficas de tiempos de preproceso vs búsqueda. */
+/** Mide y compara los tiempos de los algoritmos de búsqueda. */
 @Component({
   selector: 'app-rendimiento',
   imports: [DecimalPipe],
@@ -34,7 +33,6 @@ export class RendimientoComponent {
   protected readonly cargando = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly respuesta = signal<BenchmarkResponse | null>(null);
-  /** Mediciones hechas en esta sesión, para comparar patrones de distinto largo. */
   protected readonly historial = signal<BenchmarkResponse[]>([]);
 
   protected readonly paneles = computed<Panel[]>(() => {
@@ -77,7 +75,6 @@ export class RendimientoComponent {
     return NOMBRES[algoritmo] ?? algoritmo;
   }
 
-  /** Algoritmo con el menor tiempo total de la medición. */
   protected readonly masRapido = computed(() => {
     const r = this.respuesta();
     if (!r || r.mediciones.length === 0) {

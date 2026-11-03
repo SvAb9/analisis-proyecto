@@ -12,9 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Carga los 20 PDF reales de data/corpus. Los inicios y finales esperados se revisaron contra cada PDF.
- */
+/** Pruebas de la carga de los 20 PDF reales. */
 class CorpusRealTest {
 
     private static List<Articulo> articulos;
@@ -61,7 +59,6 @@ class CorpusRealTest {
 
     @Test
     void conservaFrasesQueDependenDeLaUnionDeLineas() {
-        // 5: la última frase, después de una enumeración larga
         assertTrue(articulo(5).abstractCrudo().endsWith("application of AI technologies with educational theories."));
         assertTrue(articulo(8).abstractCrudo().contains("instance-based"));
         assertTrue(articulo(14).abstractCrudo().contains("well-defined"));
@@ -71,15 +68,11 @@ class CorpusRealTest {
 
     @Test
     void abstractsConMaquetasDificiles() {
-        // 7: palabras clave antes del abstract
         assertTrue(articulo(7).abstractCrudo().startsWith("The rapid expansion of Learning Analytics"));
         assertTrue(articulo(7).abstractCrudo().endsWith("future human-centred LA/AIED systems."));
-        // 9: sin título de introducción
         assertTrue(articulo(9).abstractCrudo().endsWith("research and development efforts."));
-        // 13: abstract estructurado, sin rótulos
         assertTrue(articulo(13).abstractCrudo().startsWith("The purpose of this study"));
         assertFalse(articulo(13).abstractCrudo().contains("Findings –"));
-        // 14: columna lateral de Wiley
         assertTrue(articulo(14).abstractCrudo().startsWith("Recent literature underscores"));
         assertTrue(articulo(14).abstractCrudo().endsWith("in their teaching practices."));
     }

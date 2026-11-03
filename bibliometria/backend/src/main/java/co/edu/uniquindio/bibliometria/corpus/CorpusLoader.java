@@ -22,17 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-/**
- * Carga y procesa todo el corpus una sola vez al iniciar.
- *
- * <p>El id de cada artículo es el número inicial del nombre del PDF ("7. Human-centred....pdf" da "7").
- * Título y autores salen de {@code corpus/metadatos_articulos.tsv}, transcritos de la primera página y
- * verificados a mano, porque los metadatos internos de los PDF están incompletos; si un artículo no
- * figura ahí, se usan los del PDF. El abstract procesado es el abstract normalizado, sin stemming,
- * porque los modelos de embeddings necesitan las palabras completas.</p>
- *
- * <p>Si falta la carpeta o un PDF no se puede leer, falla al arrancar en lugar de servir un corpus incompleto.</p>
- */
+/** Carga y procesa los PDF del corpus al iniciar la aplicación. */
 @Component
 public class CorpusLoader {
 
@@ -57,7 +47,6 @@ public class CorpusLoader {
         this.preprocesador = preprocesador;
     }
 
-    /** Lee los PDF de la carpeta y devuelve los artículos ordenados por número. */
     public List<Articulo> cargar() {
         Map<String, String[]> verificados = leerMetadatos();
         List<Articulo> articulos = new ArrayList<>();
@@ -103,7 +92,6 @@ public class CorpusLoader {
         return pdfs;
     }
 
-    /** Número inicial del nombre del archivo. */
     private int numero(String archivo) {
         int punto = archivo.indexOf('.');
         try {
@@ -113,7 +101,6 @@ public class CorpusLoader {
         }
     }
 
-    /** Lee "id \t título \t autores"; ignora comentarios y el encabezado. */
     private Map<String, String[]> leerMetadatos() {
         Map<String, String[]> metadatos = new HashMap<>();
         try (InputStream in = getClass().getResourceAsStream(METADATOS)) {

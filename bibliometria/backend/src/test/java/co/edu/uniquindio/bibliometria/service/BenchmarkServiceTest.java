@@ -13,9 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas del benchmark de R3 con un corpus armado a mano.
- */
+/** Pruebas de BenchmarkService. */
 class BenchmarkServiceTest {
 
     private final BenchmarkService servicio = new BenchmarkService(new CorpusRepository(List.of(

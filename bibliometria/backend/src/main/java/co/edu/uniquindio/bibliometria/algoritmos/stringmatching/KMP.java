@@ -3,19 +3,10 @@ package co.edu.uniquindio.bibliometria.algoritmos.stringmatching;
 import co.edu.uniquindio.bibliometria.algoritmos.traza.Traza;
 import co.edu.uniquindio.bibliometria.infra.medicion.Cronometro;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Tabla de prefijos (LPS) y búsqueda sin retroceso.
- *
- * <p>lps[j] es el largo del prefijo propio más largo de p[0..j] que también es sufijo. Al fallar en la
- * posición j del patrón, el texto no retrocede: el patrón continúa en lps[j - 1], porque esos caracteres
- * ya se sabe que coinciden. Preprocesamiento O(m), búsqueda O(n), espacio adicional O(m).</p>
- *
- * <p>{@code comparaciones} cuenta solo las comparaciones de caracteres de la búsqueda.</p>
- */
+/** Búsqueda exacta con tabla de prefijos (LPS), sin retroceder en el texto. */
 public class KMP implements StringMatcher {
 
     @Override
@@ -38,7 +29,7 @@ public class KMP implements StringMatcher {
             traza.registrar("Tabla de prefijos (LPS)", "lps=" + Arrays.toString(lps));
         }
 
-        List<Integer> posiciones = new ArrayList<>();
+        Posiciones posiciones = new Posiciones();
         long comparaciones = 0;
         int i = 0;
         int j = 0;
@@ -49,7 +40,7 @@ public class KMP implements StringMatcher {
                 i++;
                 j++;
                 if (j == m) {
-                    posiciones.add(i - m);
+                    posiciones.agregar(i - m);
                     if (traza.estaActiva()) {
                         traza.registrar("Ocurrencia en la posición " + (i - m),
                                 "alineacion=" + (i - m) + ", desplazamiento=" + (m - lps[m - 1]) + ", j=" + lps[m - 1]);
@@ -72,10 +63,9 @@ public class KMP implements StringMatcher {
             }
         }
         long busquedaNs = Cronometro.ahora() - inicio;
-        return new ResultadoBusqueda(nombre(), posiciones, comparaciones, preprocesamientoNs, busquedaNs, traza.pasos());
+        return new ResultadoBusqueda(nombre(), posiciones.comoLista(), comparaciones, preprocesamientoNs, busquedaNs, traza.pasos());
     }
 
-    /** Construye la tabla LPS en O(m). */
     static int[] tablaLps(String patron) {
         int m = patron.length();
         int[] lps = new int[m];

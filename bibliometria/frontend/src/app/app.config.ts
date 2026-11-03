@@ -6,7 +6,6 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 
-// Los números salen con el formato del informe: 28.068 y 0,6.
 registerLocaleData(localeEsCo);
 
 export const appConfig: ApplicationConfig = {

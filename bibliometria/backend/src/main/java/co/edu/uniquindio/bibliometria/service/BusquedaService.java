@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Corre KMP, Boyer-Moore y Rabin-Karp sobre los 20 abstracts.
- */
+/** Ejecuta los tres algoritmos de búsqueda sobre los abstracts. */
 @Service
 public class BusquedaService {
 
@@ -45,7 +43,6 @@ public class BusquedaService {
         return new BusquedaResponse(patron, articuloTraza, resultados);
     }
 
-    /** Normaliza el patrón igual que los abstracts; lo rechaza si no queda ninguna letra ni dígito. */
     static String normalizarPatron(String patron, Preprocesador preprocesador) {
         String normalizado = patron == null ? "" : preprocesador.normalizar(patron);
         if (normalizado.isEmpty()) {

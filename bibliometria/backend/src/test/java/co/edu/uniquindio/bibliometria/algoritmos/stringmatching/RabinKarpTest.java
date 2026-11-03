@@ -9,9 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas unitarias de RabinKarp con casos de resultado conocido.
- */
+/** Pruebas de RabinKarp. */
 class RabinKarpTest extends ContratoStringMatcherTest {
 
     @Override
@@ -26,7 +24,6 @@ class RabinKarpTest extends ContratoStringMatcherTest {
 
     @Test
     void lasColisionesSeVerificanYNoDanFalsasOcurrencias() {
-        // Con módulo 3 varias ventanas distintas del patrón dan el mismo hash: son colisiones que la verificación descarta.
         ResultadoBusqueda r = new RabinKarp(256, 3).buscar("abc", "abcxbcaabd", Traza.activada());
         assertEquals(List.of(0), r.posiciones());
         assertTrue(r.pasos().stream().anyMatch(p -> p.descripcion().startsWith("Colisión")));

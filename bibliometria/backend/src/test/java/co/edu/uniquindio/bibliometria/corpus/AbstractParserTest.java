@@ -6,9 +6,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Pruebas de AbstractParser con los formatos de las revistas del corpus, escritos a mano.
- */
+/** Pruebas de AbstractParser. */
 class AbstractParserTest {
 
     private final AbstractParser parser = new AbstractParser();

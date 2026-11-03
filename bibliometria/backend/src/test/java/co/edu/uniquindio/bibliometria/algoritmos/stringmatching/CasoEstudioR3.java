@@ -20,12 +20,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-/**
- * Genera el caso de estudio de R3 (sección 7.2 del informe) con los algoritmos reales.
- *
- * <p>Ejecutar con: {@code mvn test -Dtest=CasoEstudioR3 -Dcaso.estudio=true}. Escribe
- * {@code ../docs/casos-estudio/r3-busqueda.json}.</p>
- */
+/** Genera los datos del caso de estudio de R3: mvn test -Dtest=CasoEstudioR3 -Dcaso.estudio=true */
 class CasoEstudioR3 {
 
     private static final String PATRON = "intelligence in";
@@ -50,20 +45,17 @@ class CasoEstudioR3 {
         salida.put("articulo", ARTICULO);
         salida.put("abstract", abstractCompleto);
 
-        // Fragmento corto: la frase real del abstract, para seguir la traza a mano.
         salida.put("frase", FRASE);
         salida.put("fraseKmp", ejecutar(new KMP(), PATRON, FRASE));
         salida.put("fraseBm", ejecutar(new BoyerMoore(), PATRON, FRASE));
         salida.put("fraseRk", ejecutar(new RabinKarp(), PATRON, FRASE));
         salida.put("fraseRkPrimoPequeno", ejecutar(new RabinKarp(256, 101), PATRON, FRASE));
 
-        // Abstract completo: serie de desplazamientos para la gráfica.
         salida.put("abstractKmp", ejecutar(new KMP(), PATRON, abstractCompleto));
         salida.put("abstractBm", ejecutar(new BoyerMoore(), PATRON, abstractCompleto));
         salida.put("abstractRk", ejecutar(new RabinKarp(), PATRON, abstractCompleto));
         salida.put("abstractRkPrimoPequeno", ejecutar(new RabinKarp(256, 101), PATRON, abstractCompleto));
 
-        // Casos extremos, solo comparaciones de caracteres (no dependen de la máquina).
         salida.put("extremos", extremos());
 
         ObjectMapper json = new ObjectMapper();

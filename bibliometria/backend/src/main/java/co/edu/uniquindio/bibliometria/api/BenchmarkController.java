@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * R3: expone tiempos de preprocesamiento vs búsqueda.
- */
+/** Expone los tiempos de preprocesamiento y de búsqueda. */
 @RestController
 @RequestMapping("/api/benchmark")
 public class BenchmarkController {

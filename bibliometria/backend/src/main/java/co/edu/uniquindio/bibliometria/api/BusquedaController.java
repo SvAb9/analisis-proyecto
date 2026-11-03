@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * R3: recibe el patrón y devuelve ocurrencias por algoritmo.
- */
+/** Expone la búsqueda de patrones. */
 @RestController
 @RequestMapping("/api/busqueda")
 public class BusquedaController {

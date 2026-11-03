@@ -9,16 +9,12 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.file.Path;
 
-/**
- * Lee el texto del PDF (única parte donde se permite librería externa).
- * Solo convierte las dos primeras páginas: en los 20 artículos el abstract termina antes del final de la 2.
- */
+/** Lee el texto de las primeras páginas de un PDF. */
 @Component
 public class PdfExtractor {
 
     private static final int PAGINAS = 2;
 
-    /** Texto de las primeras páginas y metadatos internos del PDF (pueden venir en null). */
     public record ContenidoPdf(String texto, String tituloInterno, String autoresInternos) {
     }
 

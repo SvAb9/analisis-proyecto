@@ -17,7 +17,6 @@ interface FilaArticulo {
   fragmentos: Trozo[][];
 }
 
-/** Datos de la gráfica de desplazamientos y de la tabla de pasos de un algoritmo. */
 interface Grafica {
   algoritmo: string;
   pasos: PasoTraza[];
@@ -28,7 +27,7 @@ interface Grafica {
   barras: { numero: number; valor: number; descripcion: string; alto: number }[];
 }
 
-/** Campo de patrón y resultados resaltados por algoritmo. */
+/** Busca un patrón y muestra las ocurrencias y el paso a paso. */
 @Component({
   selector: 'app-busqueda',
   imports: [DecimalPipe],
@@ -50,10 +49,8 @@ export class BusquedaComponent implements OnInit {
   protected readonly cargando = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly respuesta = signal<BusquedaResponse | null>(null);
-  /** Barra señalada en cada gráfica, por algoritmo. */
   protected readonly lectura = signal<Record<string, string>>({});
 
-  /** true si los tres algoritmos devolvieron exactamente las mismas posiciones en cada artículo. */
   protected readonly coinciden = computed(() => {
     const r = this.respuesta();
     if (!r || r.resultados.length === 0) {

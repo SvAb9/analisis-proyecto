@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } 
 import { Articulo } from '../../models/api.models';
 import { ApiService } from '../../services/api.service';
 
-/** Lista de artículos y vista del abstract. */
+/** Lista los artículos y muestra su abstract. */
 @Component({
   selector: 'app-corpus',
   imports: [DecimalPipe],
