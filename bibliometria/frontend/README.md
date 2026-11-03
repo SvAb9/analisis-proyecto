@@ -12,10 +12,13 @@ npm run build      # compila a dist/
 ```
 
 ## Estructura (`src/app/`)
+- `pages/corpus/`: los 20 artículos con título, autores y abstract
+- `pages/similitud/`: pantalla de R1
 - `pages/clustering/`: pantalla de R2 (tabla comparativa y un dendrograma por criterio de enlace)
+- `pages/busqueda/`: pantalla de R3 (ocurrencias resaltadas y paso a paso por algoritmo)
+- `pages/rendimiento/`: tiempos de preprocesamiento y de búsqueda de R3
 - `components/dendrograma/`: dibuja un dendrograma en SVG a partir del árbol que devuelve la API
 - `models/api.models.ts`: tipos de las respuestas de la API
 - `services/api.service.ts`: llamadas HTTP al backend (cada quien agrega aquí las de su requerimiento)
-- `app.routes.ts` y `app.html`: rutas y menú; agregar aquí la pantalla propia
+- `app.routes.ts` y `app.component.ts`: rutas y menú; agregar aquí la pantalla propia
 
-Las demás pantallas (`corpus`, `similitud`, `busqueda`, `rendimiento`) siguen como archivos vacíos hasta que su dueño las implemente.

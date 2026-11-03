@@ -1,0 +1,110 @@
+<section class="pagina">
+  <header>
+    <h1>Rendimiento de la búsqueda</h1>
+    <p class="subtitulo">
+      Mide cuánto tarda cada algoritmo en preparar sus estructuras y cuánto en recorrer los 20 abstracts. La medición
+      se repite y se reporta la mediana, después de un calentamiento de la JVM.
+    </p>
+  </header>
+
+  <form class="controles" (submit)="$event.preventDefault(); medir()">
+    <label for="patron">Patrón</label>
+    <input id="patron" type="text" #caja [value]="patron()" (input)="patron.set(caja.value)" />
+    <label for="repeticiones">Repeticiones</label>
+    <input id="repeticiones" type="number" min="1" [max]="maximo" #rep [value]="repeticiones()" (input)="repeticiones.set(rep.valueAsNumber)" />
+    <button type="submit" [disabled]="cargando()">{{ cargando() ? 'Midiendo…' : 'Medir' }}</button>
+  </form>
+  <div class="ejemplos">
+    <span>Ejemplos:</span>
+    @for (e of ejemplos; track e) {
+      <button type="button" class="ejemplo" [disabled]="cargando()" (click)="usarEjemplo(e)">{{ e }}</button>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (respuesta(); as r) {
+    <h2>«{{ r.patron }}»</h2>
+    <p class="nota">
+      Patrón de m = {{ r.largoPatron }} caracteres sobre n = {{ r.caracteres | number }} caracteres ({{ r.articulos }}
+      abstracts). Mediana de {{ r.repeticiones }} repeticiones, tras descartar {{ r.calentamiento }}.
+    </p>
+    <div class="paneles">
+      @for (panel of paneles(); track panel.titulo) {
+        <figure class="tarjeta panel">
+          <figcaption>{{ panel.titulo }}</figcaption>
+          @for (b of panel.barras; track b.algoritmo) {
+            <div class="fila" [title]="b.algoritmo + ': ' + (b.valor | number: '1.1-1') + ' µs'">
+              <span class="nombre">{{ b.algoritmo }}</span>
+              <span class="pista"><span class="relleno" [style.width.%]="b.ancho"></span></span>
+              <span class="valor">{{ b.valor | number: '1.1-1' }}</span>
+            </div>
+          }
+        </figure>
+      }
+    </div>
+    <p class="nota">Cada panel tiene su propia escala: el preprocesamiento suele ser mucho menor que la búsqueda.</p>
+
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Algoritmo</th>
+            <th scope="col" class="num">Preprocesamiento (µs)</th>
+            <th scope="col" class="num">Búsqueda (µs)</th>
+            <th scope="col" class="num">Mínimo total (µs)</th>
+            <th scope="col" class="num">Máximo total (µs)</th>
+            <th scope="col" class="num">Comparaciones</th>
+            <th scope="col" class="num">Ocurrencias</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (m of r.mediciones; track m.algoritmo) {
+            <tr>
+              <th scope="row">{{ m.algoritmo }}</th>
+              <td class="num">{{ microsegundos(m.preprocesamientoNs) | number: '1.1-1' }}</td>
+              <td class="num">{{ microsegundos(m.busquedaNs) | number: '1.1-1' }}</td>
+              <td class="num">{{ microsegundos(m.minimoNs) | number: '1.1-1' }}</td>
+              <td class="num">{{ microsegundos(m.maximoNs) | number: '1.1-1' }}</td>
+              <td class="num">{{ m.comparaciones | number }}</td>
+              <td class="num">{{ m.ocurrencias | number }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (historial().length > 1) {
+      <h2>Mediciones de esta sesión</h2>
+      <p class="nota">Tiempo total (preprocesamiento + búsqueda) en µs. Sirve para ver el efecto del largo del patrón.</p>
+      <div class="tabla-contenedor">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Patrón</th>
+              <th scope="col" class="num">m</th>
+              <th scope="col" class="num">KMP</th>
+              <th scope="col" class="num">BoyerMoore</th>
+              <th scope="col" class="num">RabinKarp</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (h of historial(); track $index) {
+              <tr>
+                <th scope="row">{{ h.patron }}</th>
+                <td class="num">{{ h.largoPatron }}</td>
+                <td class="num">{{ tiempoTotal(h, 'KMP') | number: '1.1-1' }}</td>
+                <td class="num">{{ tiempoTotal(h, 'BoyerMoore') | number: '1.1-1' }}</td>
+                <td class="num">{{ tiempoTotal(h, 'RabinKarp') | number: '1.1-1' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  } @else if (!cargando() && !error()) {
+    <p class="vacio">Elige un patrón y pulsa «Medir».</p>
+  }
+</section>

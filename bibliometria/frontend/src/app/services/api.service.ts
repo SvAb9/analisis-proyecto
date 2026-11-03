@@ -1,8 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ArticuloResumen, ClusteringResponse } from '../models/api.models';
+import {
+  Articulo,
+  ArticuloResumen,
+  BenchmarkResponse,
+  BusquedaResponse,
+  ClusteringResponse,
+} from '../models/api.models';
 
 /**
  * Llamadas HTTP al backend. Todas las rutas son relativas (/api/...): en desarrollo las reenvía
@@ -17,6 +23,22 @@ export class ApiService {
   /** GET /api/corpus (módulo de corpus): artículos con su id y título. */
   corpus(): Observable<ArticuloResumen[]> {
     return this.http.get<ArticuloResumen[]>(`${this.base}/corpus`);
+  }
+
+  /** GET /api/corpus: artículos completos, con autores y abstracts. */
+  articulos(): Observable<Articulo[]> {
+    return this.http.get<Articulo[]>(`${this.base}/corpus`);
+  }
+
+  /** POST /api/busqueda: ocurrencias del patrón por algoritmo; con conTraza, también sus pasos. */
+  buscar(patron: string, conTraza: boolean, articuloId: string | null): Observable<BusquedaResponse> {
+    return this.http.post<BusquedaResponse>(`${this.base}/busqueda`, { patron, conTraza, articuloId });
+  }
+
+  /** GET /api/benchmark: tiempos de preprocesamiento y de búsqueda por algoritmo. */
+  benchmark(patron: string, repeticiones: number): Observable<BenchmarkResponse> {
+    const params = new HttpParams().set('patron', patron).set('repeticiones', repeticiones);
+    return this.http.get<BenchmarkResponse>(`${this.base}/benchmark`, { params });
   }
 
   /** GET /api/similitud/algoritmos: nombres de los algoritmos de similitud disponibles. */

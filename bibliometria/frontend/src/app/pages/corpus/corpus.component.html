@@ -1,0 +1,42 @@
+<section class="pagina">
+  <header>
+    <h1>Corpus</h1>
+    <p class="subtitulo">
+      Los 20 artículos de los que parten los tres requerimientos. El título y los autores están verificados
+      contra cada PDF; el abstract se extrae automáticamente.
+    </p>
+  </header>
+
+  <div class="controles">
+    <label for="filtro" class="oculto">Filtrar por título o autor</label>
+    <input id="filtro" type="search" placeholder="Filtrar por título o autor" #caja (input)="filtro.set(caja.value)" />
+    <label class="opcion">
+      <input type="checkbox" #procesado (change)="verProcesado.set(procesado.checked)" />
+      Ver el abstract procesado
+    </label>
+  </div>
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  @if (cargando()) {
+    <p class="vacio">Cargando artículos…</p>
+  } @else if (!error()) {
+    <p class="nota">{{ visibles().length }} de {{ articulos().length }} artículos</p>
+    @for (a of visibles(); track a.id) {
+      <details class="tarjeta articulo">
+        <summary>
+          <span class="numero">{{ a.id }}</span>
+          <span>
+            <strong>{{ a.titulo }}</strong>
+            <span class="autores">{{ a.autores.join(', ') }}</span>
+          </span>
+        </summary>
+        <p class="resumen">{{ verProcesado() ? a.abstractProcesado : a.abstractCrudo }}</p>
+        <p class="nota">{{ palabras(a.abstractCrudo) }} palabras</p>
+      </details>
+    } @empty {
+      <p class="vacio">Ningún artículo coincide con el filtro.</p>
+    }
+  }
+</section>
