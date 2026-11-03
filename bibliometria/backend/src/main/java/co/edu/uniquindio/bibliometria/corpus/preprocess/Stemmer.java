@@ -1,15 +1,6 @@
 package co.edu.uniquindio.bibliometria.corpus.preprocess;
 
-/**
- * Reduce una palabra en inglés a su raíz con el algoritmo de Porter (1980), implementado desde
- * cero: {@code assessments -> assess}, {@code generative -> gener}, {@code learning -> learn}.
- * Así las variantes de una misma palabra cuentan como un solo término.
- *
- * <p>El algoritmo aplica cinco pasos de reglas de sufijos. Cada regla depende de la "medida" m
- * de la raíz que queda, es decir, cuántas secuencias vocal-consonante tiene: m = 0 para "tr",
- * 1 para "trouble", 2 para "troubles". Las reglas del mismo paso se prueban de la más larga a la
- * más corta y solo se aplica la primera que coincide con el final de la palabra.</p>
- */
+/** Reduce las palabras a su raíz. */
 public class Stemmer {
 
     private static final String[][] PASO_2 = {
@@ -26,7 +17,6 @@ public class Stemmer {
             "al", "ance", "ence", "er", "ic", "able", "ible", "ant", "ement", "ment", "ent", "ion",
             "ou", "ism", "ate", "iti", "ous", "ive", "ize"};
 
-    /** Devuelve la raíz de la palabra; las palabras de 2 letras o menos no cambian. */
     public String stem(String palabra) {
         if (palabra == null || palabra.length() <= 2) {
             return palabra;
@@ -42,24 +32,21 @@ public class Stemmer {
         return w.toString();
     }
 
-    // ---- Paso 1a: plurales (sses -> ss, ies -> i, s -> "")
     private void paso1a(StringBuilder w) {
         if (termina(w, "sses")) {
             quitar(w, 2);
         } else if (termina(w, "ies")) {
             quitar(w, 2);
         } else if (termina(w, "ss")) {
-            // se queda igual
         } else if (termina(w, "s")) {
             quitar(w, 1);
         }
     }
 
-    // ---- Paso 1b: -eed, -ed, -ing
     private void paso1b(StringBuilder w) {
         if (termina(w, "eed")) {
             if (medida(raiz(w, "eed")) > 0) {
-                quitar(w, 1); // eed -> ee
+                quitar(w, 1);
             }
             return;
         }
@@ -83,14 +70,12 @@ public class Stemmer {
         }
     }
 
-    // ---- Paso 1c: y -> i si hay una vocal antes
     private void paso1c(StringBuilder w) {
         if (termina(w, "y") && tieneVocal(raiz(w, "y"))) {
             w.setCharAt(w.length() - 1, 'i');
         }
     }
 
-    // ---- Pasos 2 y 3: cambia el sufijo si la raíz tiene medida > minimo
     private void reemplazarSiMedidaMayorQue(StringBuilder w, String[][] reglas, int minimo) {
         for (String[] regla : reglas) {
             if (termina(w, regla[0])) {
@@ -103,7 +88,6 @@ public class Stemmer {
         }
     }
 
-    // ---- Paso 4: quita sufijos si la raíz tiene medida > 1 (ion: la raíz debe acabar en s o t)
     private void paso4(StringBuilder w) {
         for (String sufijo : PASO_4) {
             if (termina(w, sufijo)) {
@@ -117,7 +101,6 @@ public class Stemmer {
         }
     }
 
-    // ---- Paso 5: quita la -e final y la -ll doble
     private void paso5(StringBuilder w) {
         if (termina(w, "e")) {
             String raiz = raiz(w, "e");
@@ -130,8 +113,6 @@ public class Stemmer {
             quitar(w, 1);
         }
     }
-
-    // ---- Utilidades
 
     private boolean termina(StringBuilder w, String sufijo) {
         int n = w.length();
@@ -159,7 +140,6 @@ public class Stemmer {
         w.setLength(w.length() - cantidad);
     }
 
-    /** Consonante: todo salvo a, e, i, o, u; la 'y' es consonante solo si no sigue a una consonante. */
     private boolean esConsonante(String s, int i) {
         char c = s.charAt(i);
         switch (c) {
@@ -176,7 +156,6 @@ public class Stemmer {
         }
     }
 
-    /** m = cuántas veces aparece vocal seguida de consonante: [C](VC)^m[V]. */
     int medida(String s) {
         int n = 0;
         int i = 0;
@@ -213,7 +192,6 @@ public class Stemmer {
         return n >= 2 && w.charAt(n - 1) == w.charAt(n - 2) && esConsonante(w.toString(), n - 1);
     }
 
-    /** Termina en consonante-vocal-consonante, y la última consonante no es w, x ni y (ej. "hop"). */
     private boolean consonanteVocalConsonante(String s) {
         int n = s.length();
         if (n < 3 || !esConsonante(s, n - 3) || esConsonante(s, n - 2) || !esConsonante(s, n - 1)) {

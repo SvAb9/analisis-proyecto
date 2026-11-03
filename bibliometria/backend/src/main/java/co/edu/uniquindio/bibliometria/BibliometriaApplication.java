@@ -3,9 +3,7 @@ package co.edu.uniquindio.bibliometria;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * Arranque de Spring Boot; dispara la carga del corpus al iniciar.
- */
+/** Arranca la aplicación. */
 @SpringBootApplication
 public class BibliometriaApplication {
 

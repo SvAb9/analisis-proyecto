@@ -1,16 +1,9 @@
 package co.edu.uniquindio.bibliometria.algoritmos.clustering;
 
 import co.edu.uniquindio.bibliometria.algoritmos.traza.Traza;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-/**
- * Agrupamiento jerárquico aglomerativo. Empieza con un clúster por artículo y, en cada paso,
- * fusiona los dos clústeres más cercanos según el CriterioEnlace, hasta quedar uno solo.
- * Los tres algoritmos del R2 (Single, Complete, Average) comparten este bucle y solo
- * difieren en el criterio. En empates se fusiona el primer par encontrado (resultado determinista).
- */
+/** Agrupamiento jerárquico aglomerativo con el criterio de enlace dado. */
 public final class ClusteringJerarquico {
 
     private final CriterioEnlace criterio;
@@ -30,24 +23,23 @@ public final class ClusteringJerarquico {
         }
         double[][] d = matriz.valores();
 
-        List<List<Integer>> clusters = new ArrayList<>();
-        List<NodoDendrograma> nodos = new ArrayList<>();
+        int[][] clusters = new int[n][];
+        NodoDendrograma[] nodos = new NodoDendrograma[n];
         for (int i = 0; i < n; i++) {
-            List<Integer> unitario = new ArrayList<>();
-            unitario.add(i);
-            clusters.add(unitario);
-            nodos.add(NodoDendrograma.hoja(i, matriz.id(i)));
+            clusters[i] = new int[] {i};
+            nodos[i] = NodoDendrograma.hoja(i, matriz.id(i));
         }
 
-        List<Dendrograma.Fusion> fusiones = new ArrayList<>();
+        Dendrograma.Fusion[] fusiones = new Dendrograma.Fusion[n - 1];
+        int activos = n;
         int paso = 1;
-        while (clusters.size() > 1) {
+        while (activos > 1) {
             int mejorI = -1;
             int mejorJ = -1;
             double mejor = Double.POSITIVE_INFINITY;
-            for (int i = 0; i < clusters.size(); i++) {
-                for (int j = i + 1; j < clusters.size(); j++) {
-                    double dist = criterio.distancia(clusters.get(i), clusters.get(j), d);
+            for (int i = 0; i < activos; i++) {
+                for (int j = i + 1; j < activos; j++) {
+                    double dist = criterio.distancia(clusters[i], clusters[j], d);
                     if (dist < mejor) {
                         mejor = dist;
                         mejorI = i;
@@ -56,35 +48,34 @@ public final class ClusteringJerarquico {
                 }
             }
 
-            List<Integer> a = clusters.get(mejorI);
-            List<Integer> b = clusters.get(mejorJ);
+            int[] a = clusters[mejorI];
+            int[] b = clusters[mejorJ];
             traza.registrar(
                     "Paso " + paso + " (" + criterio.nombre() + "): fusionar " + nombre(matriz, a)
                             + " y " + nombre(matriz, b),
                     "distancia = " + String.format(Locale.ROOT, "%.4f", mejor)
-                            + ", clústeres restantes = " + (clusters.size() - 1));
+                            + ", clústeres restantes = " + (activos - 1));
 
-            fusiones.add(new Dendrograma.Fusion(paso, List.copyOf(a), List.copyOf(b), mejor));
-            NodoDendrograma nodo = NodoDendrograma.fusion(nodos.get(mejorI), nodos.get(mejorJ), mejor);
-
-            List<Integer> unido = new ArrayList<>(a);
-            unido.addAll(b);
-            clusters.set(mejorI, unido);
-            nodos.set(mejorI, nodo);
-            clusters.remove(mejorJ);
-            nodos.remove(mejorJ);
+            fusiones[paso - 1] = new Dendrograma.Fusion(paso, a, b, mejor);
+            nodos[mejorI] = NodoDendrograma.fusion(nodos[mejorI], nodos[mejorJ], mejor);
+            clusters[mejorI] = NodoDendrograma.unir(a, b);
+            for (int k = mejorJ; k < activos - 1; k++) {
+                clusters[k] = clusters[k + 1];
+                nodos[k] = nodos[k + 1];
+            }
+            activos--;
             paso++;
         }
-        return new Dendrograma(criterio.nombre(), nodos.get(0), matriz.ids(), fusiones);
+        return new Dendrograma(criterio.nombre(), nodos[0], matriz.ids(), fusiones);
     }
 
-    private String nombre(MatrizDistancias matriz, List<Integer> cluster) {
+    private String nombre(MatrizDistancias matriz, int[] cluster) {
         StringBuilder sb = new StringBuilder("{");
-        for (int k = 0; k < cluster.size(); k++) {
+        for (int k = 0; k < cluster.length; k++) {
             if (k > 0) {
                 sb.append(", ");
             }
-            sb.append(matriz.id(cluster.get(k)));
+            sb.append(matriz.id(cluster[k]));
         }
         return sb.append("}").toString();
     }

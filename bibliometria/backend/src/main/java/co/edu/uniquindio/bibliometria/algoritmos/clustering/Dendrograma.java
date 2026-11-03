@@ -1,28 +1,23 @@
 package co.edu.uniquindio.bibliometria.algoritmos.clustering;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Resultado del agrupamiento jerárquico: el árbol, el orden de las fusiones y los ids
- * de los artículos (posición i = fila i de la matriz de distancias).
- */
+/** Árbol resultante del agrupamiento y sus fusiones. */
 public class Dendrograma {
 
-    /** Una fusión: qué dos clústeres (índices de artículos) se unieron y a qué distancia. */
-    public record Fusion(int paso, List<Integer> clusterA, List<Integer> clusterB, double distancia) {
+    public record Fusion(int paso, int[] clusterA, int[] clusterB, double distancia) {
     }
 
     private final String criterio;
     private final NodoDendrograma raiz;
     private final List<String> ids;
-    private final List<Fusion> fusiones;
+    private final Fusion[] fusiones;
 
-    public Dendrograma(String criterio, NodoDendrograma raiz, List<String> ids, List<Fusion> fusiones) {
+    public Dendrograma(String criterio, NodoDendrograma raiz, List<String> ids, Fusion[] fusiones) {
         this.criterio = criterio;
         this.raiz = raiz;
         this.ids = List.copyOf(ids);
-        this.fusiones = List.copyOf(fusiones);
+        this.fusiones = fusiones;
     }
 
     public String criterio() {
@@ -37,18 +32,11 @@ public class Dendrograma {
         return ids;
     }
 
-    /** Fusiones en el orden en que ocurrieron (n - 1 en total). */
-    public List<Fusion> fusiones() {
+    public Fusion[] fusiones() {
         return fusiones;
     }
 
-    /**
-     * Corta el árbol en k clústeres aplicando solo las primeras n - k fusiones.
-     * k = n da un clúster por artículo; k = 1 da un solo clúster.
-     *
-     * @return lista de clústeres, cada uno con los índices de sus artículos
-     */
-    public List<List<Integer>> cortar(int k) {
+    public int[][] cortar(int k) {
         int n = ids.size();
         if (k < 1 || k > n) {
             throw new IllegalArgumentException("k debe estar entre 1 y " + n);
@@ -58,33 +46,41 @@ public class Dendrograma {
             etiqueta[i] = i;
         }
         for (int f = 0; f < n - k; f++) {
-            Fusion fusion = fusiones.get(f);
-            int a = etiqueta[fusion.clusterA().get(0)];
-            int b = etiqueta[fusion.clusterB().get(0)];
+            Fusion fusion = fusiones[f];
+            int a = etiqueta[fusion.clusterA()[0]];
+            int b = etiqueta[fusion.clusterB()[0]];
             for (int i = 0; i < n; i++) {
                 if (etiqueta[i] == b) {
                     etiqueta[i] = a;
                 }
             }
         }
-        List<Integer> orden = new ArrayList<>();
-        List<List<Integer>> clusters = new ArrayList<>();
+        int[] orden = new int[k];
+        int[] tamano = new int[k];
+        int[] grupo = new int[n];
+        int grupos = 0;
         for (int i = 0; i < n; i++) {
-            int pos = orden.indexOf(etiqueta[i]);
-            if (pos < 0) {
-                orden.add(etiqueta[i]);
-                clusters.add(new ArrayList<>());
-                pos = orden.size() - 1;
+            int pos = 0;
+            while (pos < grupos && orden[pos] != etiqueta[i]) {
+                pos++;
             }
-            clusters.get(pos).add(i);
+            if (pos == grupos) {
+                orden[grupos++] = etiqueta[i];
+            }
+            grupo[i] = pos;
+            tamano[pos]++;
+        }
+        int[][] clusters = new int[k][];
+        for (int c = 0; c < k; c++) {
+            clusters[c] = new int[tamano[c]];
+            tamano[c] = 0;
+        }
+        for (int i = 0; i < n; i++) {
+            clusters[grupo[i]][tamano[grupo[i]]++] = i;
         }
         return clusters;
     }
 
-    /**
-     * Matriz cofenética: para cada par de artículos, la altura del nodo donde
-     * se juntan por primera vez en el árbol.
-     */
     public double[][] matrizCofenetica() {
         int n = ids.size();
         double[][] m = new double[n][n];

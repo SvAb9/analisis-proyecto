@@ -1,6 +1,6 @@
+// Calcula la posición de los nodos del dendrograma.
 import { NodoDendrograma } from '../../models/api.models';
 
-/** Medidas del dibujo, en unidades del SVG. */
 export const MARGEN = { izq: 210, der: 24, arriba: 12, abajo: 40 };
 export const ALTO_FILA = 22;
 export const ANCHO_GRAFICO = 520;
@@ -16,27 +16,17 @@ export interface Marca {
 }
 
 export interface Layout {
-  /** Un trazo por fusión: sale de los dos hijos, sube hasta la altura de fusión y los une. */
   trazos: string[];
   hojas: Hoja[];
   marcas: Marca[];
-  /** Tamaño del área de dibujo (sin márgenes). */
   anchoGrafico: number;
   altoGrafico: number;
-  /** Tamaño total del SVG (con márgenes). */
   ancho: number;
   alto: number;
 }
 
-/**
- * Calcula dónde dibujar cada rama. Dendrograma horizontal: las hojas van a la izquierda (distancia 0)
- * y las fusiones se desplazan a la derecha a medida que crece la distancia. El orden de las hojas es
- * el del recorrido del árbol, así que las ramas nunca se cruzan.
- */
 export function calcularLayout(raiz: NodoDendrograma, ajustar = false): Layout {
   const alturaMax = raiz.altura > 0 ? raiz.altura : 1;
-  // Con "ajustar", el eje arranca un poco antes de la primera unión en vez de en 0. Sirve cuando todas
-  // las uniones ocurren a distancias parecidas y, a escala completa, quedan apretadas a la derecha.
   const base = ajustar ? Math.max(0, menorUnion(raiz) - 0.1 * (alturaMax - menorUnion(raiz))) : 0;
   const rango = alturaMax - base > 0 ? alturaMax - base : 1;
   const escala = (h: number) => ((h - base) / rango) * ANCHO_GRAFICO;
@@ -75,7 +65,6 @@ export function calcularLayout(raiz: NodoDendrograma, ajustar = false): Layout {
   };
 }
 
-/** Altura de la unión más baja del árbol (la primera que ocurre). */
 function menorUnion(nodo: NodoDendrograma): number {
   if (!nodo.izquierda || !nodo.derecha) {
     return Infinity;

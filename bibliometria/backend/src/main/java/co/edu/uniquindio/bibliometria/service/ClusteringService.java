@@ -20,19 +20,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * R2: arma la matriz de distancias con el algoritmo de similitud elegido, corre los tres
- * criterios de enlace (Single, Complete y Average) y evalúa cada árbol con la silueta y la
- * correlación cofenética.
- *
- * <p>La matriz se calcula una sola vez y se comparte entre los tres criterios, así la única
- * diferencia entre los árboles es el criterio de enlace. El tiempo que se reporta
- * ({@code tiempoNs}) es solo el del agrupamiento, sin contar el cálculo de la matriz.</p>
- */
+/** Agrupa el corpus con los tres criterios y evalúa cada árbol. */
 @Service
 public class ClusteringService {
 
-    /** Algoritmo de similitud que se usa si la petición no trae ninguno. */
     static final String SIMILITUD_POR_DEFECTO = "CosenoTfIdf";
 
     private final SimilitudService similitud;
@@ -90,7 +81,6 @@ public class ClusteringService {
         return estrategia;
     }
 
-    /** Convierte el árbol del núcleo en el DTO que recibe el frontend. */
     private ClusteringResponse.Nodo aDto(NodoDendrograma nodo) {
         if (nodo.esHoja()) {
             return new ClusteringResponse.Nodo(nodo.articuloId(), 0.0, null, null);

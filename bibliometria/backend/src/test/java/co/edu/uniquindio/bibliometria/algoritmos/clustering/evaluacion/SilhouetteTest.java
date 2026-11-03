@@ -27,10 +27,9 @@ class SilhouetteTest {
 
     @Test
     void siluetaDeUnaParticionConocida() {
-        // {0,1}, {2,3}, {4}: s = (4.5/5.5 + 3.5/4.5 + 3.5/4.5 + 4.5/5.5 + 0) / 5
         double esperado = (4.5 / 5.5 + 3.5 / 4.5 + 3.5 / 4.5 + 4.5 / 5.5) / 5;
         double real = Silhouette.calcular(distancias(),
-                List.of(List.of(0, 1), List.of(2, 3), List.of(4)));
+                new int[][] {{0, 1}, {2, 3}, {4}});
         assertEquals(esperado, real, 1e-9);
     }
 
@@ -44,6 +43,6 @@ class SilhouetteTest {
     @Test
     void exigeAlMenosDosClusteres() {
         assertThrows(IllegalArgumentException.class,
-                () -> Silhouette.calcular(distancias(), List.of(List.of(0, 1, 2, 3, 4))));
+                () -> Silhouette.calcular(distancias(), new int[][] {{0, 1, 2, 3, 4}}));
     }
 }

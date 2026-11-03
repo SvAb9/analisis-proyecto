@@ -12,21 +12,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Elimina palabras vacías (artículos, preposiciones, conectores...) que no aportan significado.
- * Las listas están en {@code resources/stopwords/en.txt} y {@code es.txt}; se guardan en un
- * conjunto hash, así consultar una palabra cuesta O(1) en promedio.
- */
+/** Identifica las stopwords. */
 public class StopwordFilter {
 
     private final Set<String> stopwords = new HashSet<>();
 
-    /** Carga las listas de inglés y español. */
     public StopwordFilter() {
         this(unir(leerRecurso("/stopwords/en.txt"), leerRecurso("/stopwords/es.txt")));
     }
 
-    /** Filtro con una lista propia (útil en pruebas). */
     public StopwordFilter(Collection<String> palabras) {
         agregar(palabras);
     }
@@ -35,7 +29,6 @@ public class StopwordFilter {
         return stopwords.contains(token);
     }
 
-    /** Devuelve los tokens que no son stopwords, en el mismo orden. */
     public List<String> filtrar(List<String> tokens) {
         List<String> resultado = new ArrayList<>();
         for (String token : tokens) {
@@ -46,7 +39,6 @@ public class StopwordFilter {
         return resultado;
     }
 
-    /** Las palabras se normalizan igual que el texto (sin tildes ni mayúsculas) antes de guardarse. */
     private void agregar(Collection<String> palabras) {
         Normalizador normalizador = new Normalizador();
         Tokenizador tokenizador = new Tokenizador();

@@ -1,12 +1,6 @@
 package co.edu.uniquindio.bibliometria.algoritmos.clustering;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Nodo del dendrograma. Hoja: un artículo. Nodo interno: la fusión de dos clústeres,
- * con altura = distancia a la que se fusionaron.
- */
+/** Nodo del dendrograma: un artículo o la fusión de dos clústeres. */
 public final class NodoDendrograma {
 
     private final int indiceHoja;
@@ -14,10 +8,10 @@ public final class NodoDendrograma {
     private final NodoDendrograma izquierda;
     private final NodoDendrograma derecha;
     private final double altura;
-    private final List<Integer> hojas;
+    private final int[] hojas;
 
     private NodoDendrograma(int indiceHoja, String articuloId, NodoDendrograma izquierda,
-                            NodoDendrograma derecha, double altura, List<Integer> hojas) {
+                            NodoDendrograma derecha, double altura, int[] hojas) {
         this.indiceHoja = indiceHoja;
         this.articuloId = articuloId;
         this.izquierda = izquierda;
@@ -27,25 +21,32 @@ public final class NodoDendrograma {
     }
 
     public static NodoDendrograma hoja(int indice, String articuloId) {
-        return new NodoDendrograma(indice, articuloId, null, null, 0.0, List.of(indice));
+        return new NodoDendrograma(indice, articuloId, null, null, 0.0, new int[] {indice});
     }
 
     public static NodoDendrograma fusion(NodoDendrograma a, NodoDendrograma b, double altura) {
-        List<Integer> miembros = new ArrayList<>(a.hojas);
-        miembros.addAll(b.hojas);
-        return new NodoDendrograma(-1, null, a, b, altura, List.copyOf(miembros));
+        return new NodoDendrograma(-1, null, a, b, altura, unir(a.hojas, b.hojas));
+    }
+
+    static int[] unir(int[] a, int[] b) {
+        int[] unido = new int[a.length + b.length];
+        for (int i = 0; i < a.length; i++) {
+            unido[i] = a[i];
+        }
+        for (int i = 0; i < b.length; i++) {
+            unido[a.length + i] = b[i];
+        }
+        return unido;
     }
 
     public boolean esHoja() {
         return izquierda == null;
     }
 
-    /** Índice del artículo en la matriz de distancias; -1 si no es hoja. */
     public int indiceHoja() {
         return indiceHoja;
     }
 
-    /** Id del artículo; null si no es hoja. */
     public String articuloId() {
         return articuloId;
     }
@@ -58,13 +59,11 @@ public final class NodoDendrograma {
         return derecha;
     }
 
-    /** 0 en las hojas; distancia de fusión en los nodos internos. */
     public double altura() {
         return altura;
     }
 
-    /** Índices de todos los artículos bajo este nodo. */
-    public List<Integer> hojas() {
+    public int[] hojas() {
         return hojas;
     }
 }

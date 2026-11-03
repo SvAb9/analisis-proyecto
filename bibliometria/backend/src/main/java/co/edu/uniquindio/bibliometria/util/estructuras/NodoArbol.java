@@ -1,10 +1,6 @@
 package co.edu.uniquindio.bibliometria.util.estructuras;
 
-/**
- * Nodo de árbol binario de búsqueda: clave, valor asociado y referencias
- * izquierdo/derecho (ver "Estructuras de Datos", sección 2.2.1).
- * Se agrega {@code valor} para usar el árbol como diccionario (término → frecuencia, palabra → vector).
- */
+/** Nodo del árbol binario de búsqueda. */
 public class NodoArbol<K extends Comparable<K>, V> {
 
     private final K clave;

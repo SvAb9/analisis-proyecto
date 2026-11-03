@@ -1,9 +1,6 @@
 package co.edu.uniquindio.bibliometria.util.estructuras;
 
-/**
- * Nodo de lista sencillamente enlazada: un valor y la referencia al siguiente nodo.
- * Base de ListaEnlazada, Pila y Cola (ver "Estructuras de Datos", sección 1.2.1).
- */
+/** Nodo de la lista enlazada. */
 public class Nodo<T> {
 
     private T valor;

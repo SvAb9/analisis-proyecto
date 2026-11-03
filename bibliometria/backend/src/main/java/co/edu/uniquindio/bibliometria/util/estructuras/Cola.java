@@ -1,9 +1,6 @@
 package co.edu.uniquindio.bibliometria.util.estructuras;
 
-/**
- * Cola (FIFO) basada en nodos con referencias {@code inicio} y {@code fin}
- * (ver "Estructuras de Datos", sección 1.4.1). enqueue y dequeue son O(1).
- */
+/** Cola FIFO sobre lista enlazada. */
 public class Cola<T> {
 
     private Nodo<T> inicio;
@@ -16,7 +13,6 @@ public class Cola<T> {
         cantidad = 0;
     }
 
-    /** O(1). */
     public boolean estaVacia() {
         return inicio == null;
     }
@@ -25,7 +21,6 @@ public class Cola<T> {
         return cantidad;
     }
 
-    /** Agrega al final usando la referencia fin. O(1). */
     public void enqueue(T dato) {
         Nodo<T> nuevo = new Nodo<>(dato);
         if (estaVacia()) {
@@ -37,7 +32,6 @@ public class Cola<T> {
         cantidad++;
     }
 
-    /** Elimina y retorna el elemento del inicio. O(1). */
     public T dequeue() {
         if (estaVacia()) {
             throw new IllegalStateException("La cola está vacía");
@@ -51,7 +45,6 @@ public class Cola<T> {
         return dato;
     }
 
-    /** Elemento del frente sin eliminarlo. O(1). */
     public T top() {
         if (estaVacia()) {
             throw new IllegalStateException("La cola está vacía");

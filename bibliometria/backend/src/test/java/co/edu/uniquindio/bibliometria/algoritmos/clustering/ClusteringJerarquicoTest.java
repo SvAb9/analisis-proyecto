@@ -1,5 +1,6 @@
 package co.edu.uniquindio.bibliometria.algoritmos.clustering;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,10 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import co.edu.uniquindio.bibliometria.algoritmos.traza.Traza;
 
-/**
- * Caso de prueba conocido: cinco puntos en una recta en las posiciones 0, 1, 5, 6 y 20.
- * Las alturas de fusión esperadas se calcularon a mano para cada criterio.
- */
+/** Cinco puntos en una recta: 0, 1, 5, 6 y 20. */
 class ClusteringJerarquicoTest {
 
     private static MatrizDistancias matrizEnRecta() {
@@ -27,11 +25,11 @@ class ClusteringJerarquicoTest {
 
     private static void verificar(CriterioEnlace criterio, double[] alturas) {
         Dendrograma dendrograma = new ClusteringJerarquico(criterio).agrupar(matrizEnRecta());
-        assertEquals(4, dendrograma.fusiones().size());
+        assertEquals(4, dendrograma.fusiones().length);
         for (int i = 0; i < alturas.length; i++) {
-            assertEquals(alturas[i], dendrograma.fusiones().get(i).distancia(), 1e-9);
+            assertEquals(alturas[i], dendrograma.fusiones()[i].distancia(), 1e-9);
         }
-        assertEquals(5, dendrograma.raiz().hojas().size());
+        assertEquals(5, dendrograma.raiz().hojas().length);
     }
 
     @Test
@@ -52,7 +50,7 @@ class ClusteringJerarquicoTest {
     @Test
     void cortarEnTresClusteresSeparaLosGruposNaturales() {
         Dendrograma dendrograma = new ClusteringJerarquico(new AverageLinkage()).agrupar(matrizEnRecta());
-        assertEquals(List.of(List.of(0, 1), List.of(2, 3), List.of(4)), dendrograma.cortar(3));
+        assertArrayEquals(new int[][] {{0, 1}, {2, 3}, {4}}, dendrograma.cortar(3));
     }
 
     @Test

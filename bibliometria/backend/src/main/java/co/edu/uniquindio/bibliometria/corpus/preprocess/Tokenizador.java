@@ -3,10 +3,7 @@ package co.edu.uniquindio.bibliometria.corpus.preprocess;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Divide un texto en tokens: secuencias de letras o dígitos, en minúsculas.
- * Cualquier otro carácter separa tokens. Recorrido carácter por carácter, O(n).
- */
+/** Separa el texto en palabras. */
 public class Tokenizador {
 
     public List<String> tokenizar(String texto) {

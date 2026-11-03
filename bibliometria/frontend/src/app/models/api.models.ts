@@ -1,6 +1,4 @@
-/** Tipos que comparte el frontend con la API del backend (ver docs/contratos.md). */
-
-/** Nodo del dendrograma. Hoja: articuloId != null y sin hijos. Nodo interno: altura = distancia de fusión. */
+// Tipos de las respuestas de la API.
 export interface NodoDendrograma {
   articuloId: string | null;
   altura: number;
@@ -8,7 +6,6 @@ export interface NodoDendrograma {
   derecha: NodoDendrograma | null;
 }
 
-/** Resultado de un criterio de enlace (Single, Complete o Average). */
 export interface ResultadoClustering {
   criterio: string;
   arbol: NodoDendrograma;
@@ -21,13 +18,11 @@ export interface ClusteringResponse {
   resultados: ResultadoClustering[];
 }
 
-/** Lo mínimo que necesita la pantalla de un artículo del corpus. */
 export interface ArticuloResumen {
   id: string | number;
   titulo: string;
 }
 
-/** Tipos de corpus, búsqueda y benchmark. */
 export interface Articulo {
   id: string;
   titulo: string;

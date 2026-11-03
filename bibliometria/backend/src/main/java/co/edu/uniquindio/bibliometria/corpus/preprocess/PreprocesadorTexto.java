@@ -4,16 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/**
- * Pipeline completo de preprocesamiento: Normalizador, Tokenizador, StopwordFilter y Stemmer.
- *
- * <ul>
- *   <li>{@link #normalizar(String)}: texto corrido limpio (sin stemming). Es lo que se guarda como
- *       {@code abstractProcesado}, porque los modelos de embeddings necesitan palabras completas.</li>
- *   <li>{@link #tokenizar(String)}: lista de raíces sin stopwords, para los algoritmos que trabajan
- *       con términos (TF-IDF, Jaccard, clustering).</li>
- * </ul>
- */
+/** Une normalización, tokenización, stopwords y stemming. */
 @Component
 public class PreprocesadorTexto implements Preprocesador {
 
@@ -41,7 +32,6 @@ public class PreprocesadorTexto implements Preprocesador {
         return normalizador.normalizar(texto);
     }
 
-    /** Normaliza, separa en tokens, descarta stopwords, números y palabras de una letra, y aplica stemming. */
     @Override
     public List<String> tokenizar(String texto) {
         List<String> resultado = new ArrayList<>();

@@ -12,16 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * R2: ejecuta los 3 enlaces y devuelve dendrogramas y métricas internas.
- *
- * <ul>
- *   <li>POST /api/clustering: agrupa los artículos del corpus con el algoritmo de similitud
- *       pedido (por defecto CosenoTfIdf) y devuelve un árbol por cada criterio de enlace</li>
- * </ul>
- *
- * <p>Los nombres de los algoritmos de similitud disponibles salen de GET /api/similitud/algoritmos.</p>
- */
+/** Endpoint de agrupamiento (R2). */
 @RestController
 @RequestMapping("/api/clustering")
 public class ClusteringController {

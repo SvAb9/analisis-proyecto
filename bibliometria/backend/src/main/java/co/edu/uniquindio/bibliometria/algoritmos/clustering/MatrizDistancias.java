@@ -1,13 +1,9 @@
 package co.edu.uniquindio.bibliometria.algoritmos.clustering;
 
 import co.edu.uniquindio.bibliometria.algoritmos.similitud.SimilitudStrategy;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Matriz simétrica de distancias entre artículos (diagonal en 0).
- * La fila/columna i corresponde al artículo ids().get(i).
- */
+/** Matriz simétrica de distancias entre artículos. */
 public class MatrizDistancias {
 
     private static final double TOLERANCIA = 1e-9;
@@ -42,7 +38,6 @@ public class MatrizDistancias {
         this.valores = copia;
     }
 
-    /** Distancia = 1 - similitud. La diagonal se fuerza a 0. */
     public static MatrizDistancias desdeSimilitud(List<String> ids, double[][] similitud) {
         int n = ids.size();
         double[][] d = new double[n][n];
@@ -54,10 +49,6 @@ public class MatrizDistancias {
         return new MatrizDistancias(ids, d);
     }
 
-    /**
-     * Compara todos los pares de textos con el algoritmo de similitud dado
-     * (solo el triángulo superior; la matriz es simétrica) y la convierte en distancias.
-     */
     public static MatrizDistancias desdeTextos(List<String> ids, List<String> textos, SimilitudStrategy estrategia) {
         int n = ids.size();
         if (textos.size() != n) {
@@ -80,7 +71,7 @@ public class MatrizDistancias {
     }
 
     public List<String> ids() {
-        return new ArrayList<>(ids);
+        return ids;
     }
 
     public String id(int i) {
@@ -91,7 +82,6 @@ public class MatrizDistancias {
         return valores[i][j];
     }
 
-    /** Copia de la matriz, para que nadie la modifique por fuera. */
     public double[][] valores() {
         int n = valores.length;
         double[][] copia = new double[n][n];

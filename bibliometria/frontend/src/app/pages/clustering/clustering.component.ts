@@ -1,3 +1,4 @@
+// Pantalla de agrupamiento jerárquico.
 import { DecimalPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
@@ -8,7 +9,6 @@ import { ApiService } from '../../services/api.service';
 
 const SIMILITUD_POR_DEFECTO = 'CosenoTfIdf';
 
-/** Devuelve el criterio con el valor más alto de la métrica dada, o null si no hay resultados. */
 function mejorCriterio(
   respuesta: ClusteringResponse | null,
   metrica: (r: ResultadoClustering) => number,
@@ -19,10 +19,6 @@ function mejorCriterio(
   return respuesta.resultados.reduce((mejor, r) => (metrica(r) > metrica(mejor) ? r : mejor)).criterio;
 }
 
-/**
- * R2: el usuario elige el algoritmo de similitud, el backend agrupa los 20 artículos con los tres
- * criterios de enlace y la pantalla muestra una tabla comparativa y un dendrograma por criterio.
- */
 @Component({
   selector: 'app-clustering',
   imports: [DecimalPipe, DendrogramaComponent],
@@ -39,7 +35,6 @@ export class ClusteringComponent implements OnInit {
   protected readonly cargando = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly respuesta = signal<ClusteringResponse | null>(null);
-  /** Título de cada artículo por id; queda vacío si el módulo de corpus aún no responde. */
   protected readonly etiquetas = signal<Record<string, string>>({});
 
   protected readonly mejorCofenetica = computed(() =>
@@ -58,7 +53,6 @@ export class ClusteringComponent implements OnInit {
       error: () => this.error.set('No se pudo cargar la lista de algoritmos. ¿Está encendido el backend?'),
     });
 
-    // Los títulos solo hacen más legible el dendrograma; si el endpoint no existe todavía, se muestran los ids.
     this.api.corpus().subscribe({
       next: (articulos) => {
         const porId: Record<string, string> = {};

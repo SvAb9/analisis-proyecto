@@ -1,7 +1,5 @@
 package co.edu.uniquindio.bibliometria.config;
 
-/**
- * Permite que el frontend llame a la API.
- */
+/** Permite las peticiones del frontend. */
 public class CorsConfig {
 }

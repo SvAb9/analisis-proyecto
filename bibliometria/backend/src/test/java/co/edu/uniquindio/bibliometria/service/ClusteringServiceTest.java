@@ -19,10 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas del servicio de R2 sin modelos de IA, con un corpus armado a mano: dos artículos
- * sobre IA generativa (1 y 2) y dos sobre simulación (3 y 4).
- */
 class ClusteringServiceTest {
 
     private static RepositorioCorpus corpus(List<Articulo> articulos) {

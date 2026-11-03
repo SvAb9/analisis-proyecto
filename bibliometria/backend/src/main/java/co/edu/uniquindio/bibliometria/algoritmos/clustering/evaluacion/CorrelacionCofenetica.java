@@ -1,10 +1,6 @@
 package co.edu.uniquindio.bibliometria.algoritmos.clustering.evaluacion;
 
-/**
- * Correlación cofenética: correlación de Pearson entre las distancias originales y las
- * distancias cofenéticas del árbol (altura donde se juntan dos artículos), sobre todos los pares.
- * Cerca de 1 = el árbol representa fielmente las distancias originales.
- */
+/** Correlación entre las distancias originales y las del árbol. */
 public final class CorrelacionCofenetica {
 
     private CorrelacionCofenetica() {

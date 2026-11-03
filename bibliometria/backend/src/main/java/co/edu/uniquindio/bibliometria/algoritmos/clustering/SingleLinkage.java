@@ -1,7 +1,5 @@
 package co.edu.uniquindio.bibliometria.algoritmos.clustering;
 
-import java.util.List;
-
 /** Enlace simple: distancia mínima entre un miembro de A y uno de B. */
 public class SingleLinkage implements CriterioEnlace {
 
@@ -11,7 +9,7 @@ public class SingleLinkage implements CriterioEnlace {
     }
 
     @Override
-    public double distancia(List<Integer> clusterA, List<Integer> clusterB, double[][] distancias) {
+    public double distancia(int[] clusterA, int[] clusterB, double[][] distancias) {
         double minima = Double.POSITIVE_INFINITY;
         for (int i : clusterA) {
             for (int j : clusterB) {

@@ -1,13 +1,9 @@
+// Dibuja el dendrograma en SVG.
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 import { NodoDendrograma } from '../../models/api.models';
 import { MARGEN, calcularLayout } from './dendrograma.layout';
 
-/**
- * Dibuja un dendrograma (árbol de agrupamiento) en SVG a partir del árbol que devuelve el backend.
- * La altura de cada unión es la distancia a la que se fusionaron los dos grupos: cuanto más a la
- * derecha se unen, menos se parecen.
- */
 @Component({
   selector: 'app-dendrograma',
   templateUrl: './dendrograma.component.html',
@@ -15,13 +11,9 @@ import { MARGEN, calcularLayout } from './dendrograma.layout';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DendrogramaComponent {
-  /** Raíz del árbol. */
   readonly arbol = input.required<NodoDendrograma>();
-  /** Título de cada artículo por id; si falta, se muestra solo el id. */
   readonly etiquetas = input<Record<string, string>>({});
-  /** Si es true, el eje no arranca en 0 sino cerca de la primera unión (más legible cuando las distancias son parecidas). */
   readonly ajustar = input(false);
-  /** Texto alternativo para lectores de pantalla. */
   readonly descripcion = input('Dendrograma');
 
   protected readonly margen = MARGEN;

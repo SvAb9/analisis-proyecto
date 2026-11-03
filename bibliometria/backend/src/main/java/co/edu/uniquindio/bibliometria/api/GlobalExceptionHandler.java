@@ -1,7 +1,5 @@
 package co.edu.uniquindio.bibliometria.api;
 
-/**
- * Manejo uniforme de errores HTTP.
- */
+/** Convierte los errores en respuestas de la API. */
 public class GlobalExceptionHandler {
 }

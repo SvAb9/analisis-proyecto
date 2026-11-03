@@ -1,9 +1,6 @@
 package co.edu.uniquindio.bibliometria.util.estructuras;
 
-/**
- * Pila (LIFO) basada en nodos con referencia {@code tope}
- * (ver "Estructuras de Datos", sección 1.3.1). push, pop y top son O(1).
- */
+/** Pila LIFO sobre lista enlazada. */
 public class Pila<T> {
 
     private Nodo<T> tope;
@@ -14,7 +11,6 @@ public class Pila<T> {
         cantidad = 0;
     }
 
-    /** O(1). */
     public boolean estaVacia() {
         return tope == null;
     }
@@ -23,7 +19,6 @@ public class Pila<T> {
         return cantidad;
     }
 
-    /** Inserta en el tope. O(1). */
     public void push(T dato) {
         Nodo<T> nuevo = new Nodo<>(dato);
         if (!estaVacia()) {
@@ -33,7 +28,6 @@ public class Pila<T> {
         cantidad++;
     }
 
-    /** Elimina y retorna el elemento del tope. O(1). */
     public T pop() {
         if (estaVacia()) {
             throw new IllegalStateException("La pila está vacía");
@@ -44,7 +38,6 @@ public class Pila<T> {
         return dato;
     }
 
-    /** Retorna el elemento del tope sin eliminarlo. O(1). */
     public T top() {
         if (estaVacia()) {
             throw new IllegalStateException("La pila está vacía");
