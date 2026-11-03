@@ -1,0 +1,8 @@
+:host { display: block; }
+.contenedor { overflow-x: auto; }
+svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.rama { fill: none; stroke: var(--acento); stroke-width: 1.6; stroke-linejoin: round; }
+.hoja { text-anchor: end; dominant-baseline: middle; font: 400 12px var(--sans); fill: var(--tinta); }
+.eje { stroke: var(--linea-fuerte); stroke-width: 1; }
+.marca { font: 400 11px var(--mono); fill: var(--tinta-3); }
+.leyenda { margin: 0.4rem 0 0; font-size: 0.8rem; color: var(--tinta-3); text-align: center; }

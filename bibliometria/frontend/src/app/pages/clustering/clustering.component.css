@@ -1,0 +1,8 @@
+.etiqueta { font-weight: 600; }
+td.mejor { font-weight: 600; color: var(--acento); }
+.insignia { margin-left: 0.4rem; font-family: var(--sans); }
+.ayuda { margin-top: 0.9rem; font-size: 0.9rem; color: var(--tinta-2); }
+.ayuda summary { font-weight: 500; color: var(--acento); }
+.arboles { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+.arboles .tarjeta { margin: 0; }
+.opcion { margin-bottom: 0.9rem; }

@@ -1,0 +1,29 @@
+@let l = layout();
+<div class="contenedor">
+  <svg [attr.viewBox]="'0 0 ' + l.ancho + ' ' + l.alto" role="img" [attr.aria-label]="descripcion()">
+    <g [attr.transform]="'translate(' + margen.izq + ',' + margen.arriba + ')'">
+      @for (h of l.hojas; track h.id) {
+        <text class="hoja" x="-10" [attr.y]="h.y">
+          <title>{{ titulo(h.id) }}</title>
+          {{ etiqueta(h.id) }}
+        </text>
+      }
+
+      @for (d of l.trazos; track $index) {
+        <path class="rama" [attr.d]="d" />
+      }
+
+      <line class="eje" x1="0" [attr.y1]="l.altoGrafico + 6" [attr.x2]="l.anchoGrafico" [attr.y2]="l.altoGrafico + 6" />
+      @for (m of l.marcas; track m.x) {
+        <line class="eje" [attr.x1]="m.x" [attr.y1]="l.altoGrafico + 6" [attr.x2]="m.x" [attr.y2]="l.altoGrafico + 11" />
+        <text class="marca" text-anchor="middle" [attr.x]="m.x" [attr.y]="l.altoGrafico + 25">{{ m.texto }}</text>
+      }
+    </g>
+  </svg>
+  <p class="leyenda">
+    Distancia entre grupos (0 = idénticos, 1 = sin nada en común)
+    @if (ajustar()) {
+      · escala acercada: el eje no empieza en 0
+    }
+  </p>
+</div>

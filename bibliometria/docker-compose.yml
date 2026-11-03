@@ -1,12 +1,16 @@
-# Orquesta backend y frontend
+# Orquesta backend y frontend: docker compose up -d --build
 services:
   backend:
     build: ./backend
-    ports:
-      - "8080:8080"
+    restart: unless-stopped
+    expose:
+      - "8080"
     environment:
       - CORPUS_PATH=/app/data/corpus
-  # frontend:
-  #   build: ./frontend
-  #   ports:
-  #     - "4200:80"
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"

@@ -1,0 +1,345 @@
+{
+  "idA" : 11,
+  "idB" : 16,
+  "tituloA" : "A scoping review on how generative artificial intelligence transforms assessment in higher education",
+  "tituloB" : "Generative Artificial Intelligence in Tertiary Education: Assessment Redesign Principles and Considerations",
+  "abstractA" : "Generative artificial intelligence provides both opportunities and challenges for higher education. Existing literature has not properly investigated how this technology would impact assessment in higher education. This scoping review took a forward-thinking approach to investigate how generative artificial intelligence transforms assessment in higher education. We used the PRISMA extension for scoping reviews to select articles for review and report the results. In the screening, we retrieved 969 articles and selected 32 empirical studies for analysis. Most of the articles were published in 2023. We used three levels—students, teachers, and institutions—to analyses the articles. Our results suggested that assessment should be transformed to cultivate students’ self-regulated learning skills, responsible learning, and integrity. To successfully transform assessment in higher education, the review suggested that (i) teacher professional development activities for assessment, AI, and digital literacy should be provided, (ii) teachers’ beliefs about human and AI assessment should be strengthened, and (iii) teachers should be innovative and holistic in their teaching to reflect the assessment transformation. Educational institutions are recommended to review and rethink their assessment policies, as well as provide more inter-disciplinary programs and teaching.",
+  "abstractB" : "The emergence of generative artificial intelligence (AI) such as ChatGPT has sparked significant assessment concerns within tertiary education. Assessment concerns have largely revolved around academic integrity issues among students, such as plagiarism and cheating. Nonetheless, it is also critical to consider that generative AI models trained on information retrieved from the Internet could produce biased and discriminatory outputs, and hallucination issues in large language models upon which generative AI acts provide made-up and untruthful outputs. This article considers the affordances and challenges of generative AI specific to assessments within tertiary education. It illustrates considerations for assessment redesign with the existence of generative AI and proposes the Against, Avoid and Adopt (AAA) principle to rethink and redesign assessments. It argues that more generative AI tools will emerge exponentially, and hence, engaging in an arms race against generative AI and policing the use of these technologies may not address the fundamental issues in assessments.",
+  "caracteresA" : 1350,
+  "caracteresB" : 1072,
+  "tokensA" : 115,
+  "tokensB" : 93,
+  "primerosTokensA" : [ "generative", "artificial", "intelligence", "provides", "opportunities", "challenges", "higher", "education", "existing", "literature", "properly", "investigated" ],
+  "primerosTokensB" : [ "emergence", "generative", "artificial", "intelligence", "ai", "chatgpt", "sparked", "significant", "assessment", "concerns", "tertiary", "education" ],
+  "levMatriz" : [ [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ], [ 1, 1, 2, 3, 4, 4, 5, 6, 7, 8 ], [ 2, 1, 2, 2, 3, 4, 4, 5, 6, 7 ], [ 3, 2, 2, 3, 3, 4, 5, 4, 5, 6 ], [ 4, 3, 3, 2, 3, 4, 4, 5, 5, 5 ], [ 5, 4, 4, 3, 2, 3, 4, 5, 6, 6 ], [ 6, 5, 5, 4, 3, 3, 4, 5, 6, 7 ], [ 7, 6, 6, 5, 4, 4, 4, 5, 6, 7 ], [ 8, 7, 7, 6, 5, 5, 5, 5, 6, 7 ], [ 9, 8, 8, 7, 6, 6, 6, 6, 6, 7 ], [ 10, 9, 9, 8, 7, 7, 6, 7, 7, 6 ] ],
+  "levX" : "generative",
+  "levY" : "emergence",
+  "levDistancia" : 947,
+  "levSimilitud" : 0.2985185185185185,
+  "nwMatriz" : [ [ 0, -1, -2, -3, -4, -5, -6 ], [ -1, -1, 0, -1, -2, -3, -4 ], [ -2, -2, -1, 1, 0, -1, -2 ], [ -3, -3, -2, 0, 2, 1, 0 ], [ -4, -4, -3, -1, 1, 1, 0 ], [ -5, -5, -4, -2, 0, 0, 0 ], [ -6, -6, -5, -3, -1, -1, -1 ] ],
+  "nwX" : [ "generative", "artificial", "intelligence", "provides", "opportunities", "challenges" ],
+  "nwY" : [ "emergence", "generative", "artificial", "intelligence", "ai", "chatgpt" ],
+  "nwPares" : [ [ "-", "emergence" ], [ "generative", "generative" ], [ "artificial", "artificial" ], [ "intelligence", "intelligence" ], [ "provides", "-" ], [ "opportunities", "ai" ], [ "challenges", "chatgpt" ] ],
+  "nwPuntajeEjemplo" : -1,
+  "nwPuntaje" : -101,
+  "nwCoincidencias" : 8,
+  "nwLongitud" : 117,
+  "nwSimilitud" : 0.06837606837606838,
+  "nwTokensCoincidentes" : [ "generative", "artificial", "intelligence", "assessment", "education", "assessment", "education", "assessment" ],
+  "jaccardPasos" : {
+    "|A|" : {
+      "valor" : 82,
+      "descripcion" : "términos únicos de A: [activities, ai, analyses, analysis, approach, articles, artificial, assessment, beliefs, challenges, cultivate, development, digital, disciplinary, education, educational, empirical, existing, extension, forward, generative, higher, holistic, human, ii, iii, impact, innovative, institutions, integrity, intelligence, inter, investigate, investigated, learning, levels, literacy, literature, opportunities, policies, prisma, professional, programs, properly, provide, provided, provides, published, recommended, reflect, regulated, report, responsible, results, rethink, retrieved, review, reviews, scoping, screening, select, selected, self, skills, strengthened, students, studies, successfully, suggested, teacher, teachers, teaching, technology, thinking, three, took, transform, transformation, transformed, transforms, used, well]"
+    },
+    "|B|" : {
+      "valor" : 69,
+      "descripcion" : "términos únicos de B: [aaa, academic, acts, address, adopt, affordances, ai, argues, arms, around, article, artificial, assessment, assessments, avoid, biased, challenges, chatgpt, cheating, concerns, consider, considerations, considers, critical, discriminatory, education, emerge, emergence, engaging, existence, exponentially, fundamental, generative, hallucination, hence, illustrates, information, integrity, intelligence, internet, issues, language, large, largely, made, models, nonetheless, outputs, plagiarism, policing, principle, produce, proposes, provide, race, redesign, rethink, retrieved, revolved, significant, sparked, specific, students, technologies, tertiary, tools, trained, untruthful, use]"
+    },
+    "|A ∩ B|" : {
+      "valor" : 12,
+      "descripcion" : "términos comunes: [ai, artificial, assessment, challenges, education, generative, integrity, intelligence, provide, rethink, retrieved, students]"
+    },
+    "|A ∪ B|" : {
+      "valor" : 139,
+      "descripcion" : "82 + 69 - 12"
+    },
+    "resultado" : {
+      "valor" : 0.08633093525179857,
+      "descripcion" : "12 / 139"
+    }
+  },
+  "jaccardSimilitud" : 0.08633093525179857,
+  "cosenoTerminos" : [ {
+    "termino" : "ai",
+    "fA" : 2,
+    "tfA" : 0.017391304347826087,
+    "fB" : 7,
+    "tfB" : 0.07526881720430108,
+    "df" : 18,
+    "idf" : 1.1000834585569825,
+    "wA" : 0.01913188623577361,
+    "wB" : 0.08280198075160083,
+    "producto" : 0.0015841580758363433
+  }, {
+    "termino" : "artificial",
+    "fA" : 2,
+    "tfA" : 0.017391304347826087,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 20,
+    "idf" : 1.0,
+    "wA" : 0.017391304347826087,
+    "wB" : 0.010752688172043012,
+    "producto" : 1.8700327255726976E-4
+  }, {
+    "termino" : "assessment",
+    "fA" : 8,
+    "tfA" : 0.06956521739130435,
+    "fB" : 3,
+    "tfB" : 0.03225806451612903,
+    "df" : 10,
+    "idf" : 1.6466271649250523,
+    "wA" : 0.11454797669043842,
+    "wB" : 0.053117005320162974,
+    "producto" : 0.006084445487279922
+  }, {
+    "termino" : "challenges",
+    "fA" : 1,
+    "tfA" : 0.008695652173913044,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 6,
+    "idf" : 2.09861228866811,
+    "wA" : 0.01824880251015748,
+    "wB" : 0.0225657235340657,
+    "producto" : 4.117974322719779E-4
+  }, {
+    "termino" : "education",
+    "fA" : 4,
+    "tfA" : 0.034782608695652174,
+    "fB" : 2,
+    "tfB" : 0.021505376344086023,
+    "df" : 18,
+    "idf" : 1.1000834585569825,
+    "wA" : 0.03826377247154722,
+    "wB" : 0.02365770878617167,
+    "producto" : 9.052331861921963E-4
+  }, {
+    "termino" : "generative",
+    "fA" : 2,
+    "tfA" : 0.017391304347826087,
+    "fB" : 7,
+    "tfB" : 0.07526881720430108,
+    "df" : 4,
+    "idf" : 2.435084525289323,
+    "wA" : 0.042349296091988224,
+    "wB" : 0.1832859320110243,
+    "producto" : 0.007762030204230891
+  }, {
+    "termino" : "integrity",
+    "fA" : 1,
+    "tfA" : 0.008695652173913044,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 2,
+    "idf" : 2.9459101490553135,
+    "wA" : 0.025616609991785336,
+    "wB" : 0.031676453215648534,
+    "producto" : 8.11443347948303E-4
+  }, {
+    "termino" : "intelligence",
+    "fA" : 2,
+    "tfA" : 0.017391304347826087,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 20,
+    "idf" : 1.0,
+    "wA" : 0.017391304347826087,
+    "wB" : 0.010752688172043012,
+    "producto" : 1.8700327255726976E-4
+  }, {
+    "termino" : "provide",
+    "fA" : 1,
+    "tfA" : 0.008695652173913044,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 10,
+    "idf" : 1.6466271649250523,
+    "wA" : 0.014318497086304803,
+    "wB" : 0.017705668440054327,
+    "producto" : 2.535185619699968E-4
+  }, {
+    "termino" : "rethink",
+    "fA" : 1,
+    "tfA" : 0.008695652173913044,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 2,
+    "idf" : 2.9459101490553135,
+    "wA" : 0.025616609991785336,
+    "wB" : 0.031676453215648534,
+    "producto" : 8.11443347948303E-4
+  }, {
+    "termino" : "retrieved",
+    "fA" : 1,
+    "tfA" : 0.008695652173913044,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 2,
+    "idf" : 2.9459101490553135,
+    "wA" : 0.025616609991785336,
+    "wB" : 0.031676453215648534,
+    "producto" : 8.11443347948303E-4
+  }, {
+    "termino" : "students",
+    "fA" : 2,
+    "tfA" : 0.017391304347826087,
+    "fB" : 1,
+    "tfB" : 0.010752688172043012,
+    "df" : 8,
+    "idf" : 1.8472978603872037,
+    "wA" : 0.0321269193110818,
+    "wB" : 0.01986341785362585,
+    "producto" : 6.381504226257393E-4
+  } ],
+  "cosenoTerminosA" : 82,
+  "cosenoTerminosB" : 69,
+  "cosenoPasos" : {
+    "N" : 20.0,
+    "A·B" : 0.02044766995936652,
+    "||A||" : 0.29198468096948343,
+    "||B||" : 0.3757852149189228,
+    "cos θ" : 0.18635629648267102,
+    "θ" : 79.25978228642118
+  },
+  "cosenoSimilitud" : 0.18635629648267102,
+  "cosenoSinCorpus" : 0.21024539377693177,
+  "embeddings-oracionPasos" : {
+    "modelo" : {
+      "valor" : null,
+      "descripcion" : "all-MiniLM-L6-v2, dimensión 384"
+    },
+    "A" : {
+      "valor" : null,
+      "descripcion" : "233 tokens WordPiece en 1 ventana(s), mean pooling; primeras componentes [-0.0713, 0.0167, 0.0047, 0.0100, -0.0383, -0.0095, -0.0455, -0.0009, ...]"
+    },
+    "B" : {
+      "valor" : null,
+      "descripcion" : "194 tokens WordPiece en 1 ventana(s), mean pooling; primeras componentes [-0.0985, -0.0041, 0.0579, -0.0224, 0.0035, -0.0115, -0.0235, -0.0367, ...]"
+    },
+    "A·B" : {
+      "valor" : 0.7354903500418903,
+      "descripcion" : "suma de a_i·b_i sobre 384 componentes"
+    },
+    "||A||" : {
+      "valor" : 0.9999999999999998,
+      "descripcion" : "raíz de la suma de a_i²"
+    },
+    "||B||" : {
+      "valor" : 1.000000000000001,
+      "descripcion" : "raíz de la suma de b_i²"
+    },
+    "cos θ" : {
+      "valor" : 0.7354903500418897,
+      "descripcion" : "0.7355 / (1.0000 · 1.0000)"
+    },
+    "θ" : {
+      "valor" : 42.65133370475647,
+      "descripcion" : "arccos(cos θ) en grados"
+    },
+    "d(A, B)" : {
+      "valor" : 0.7273371294772601,
+      "descripcion" : "raíz de la suma de (a_i - b_i)²"
+    }
+  },
+  "embeddings-oracionSimilitud" : 0.7354903500418897,
+  "embeddings-palabrasPasos" : {
+    "modelo" : {
+      "valor" : null,
+      "descripcion" : "glove.6B.100d.corpus.txt, dimensión 100"
+    },
+    "A" : {
+      "valor" : null,
+      "descripcion" : "promedio de 115 de 115 palabras con vector; primeras componentes [-0.0703, 0.2667, -0.0590, 0.2133, 0.0179, -0.0965, -0.1598, 0.0791, ...]"
+    },
+    "B" : {
+      "valor" : null,
+      "descripcion" : "promedio de 92 de 93 palabras con vector; primeras componentes [-0.0835, 0.2641, 0.1889, 0.1685, -0.0400, -0.0912, -0.2150, -0.0978, ...]"
+    },
+    "A·B" : {
+      "valor" : 7.593424901563041,
+      "descripcion" : "suma de a_i·b_i sobre 100 componentes"
+    },
+    "||A||" : {
+      "valor" : 3.2076030590345574,
+      "descripcion" : "raíz de la suma de a_i²"
+    },
+    "||B||" : {
+      "valor" : 2.5322661173295575,
+      "descripcion" : "raíz de la suma de b_i²"
+    },
+    "cos θ" : {
+      "valor" : 0.9348624996401791,
+      "descripcion" : "7.5934 / (3.2076 · 2.5323)"
+    },
+    "θ" : {
+      "valor" : 20.794057833961126,
+      "descripcion" : "arccos(cos θ) en grados"
+    },
+    "d(A, B)" : {
+      "valor" : 1.2305442983400008,
+      "descripcion" : "raíz de la suma de (a_i - b_i)²"
+    }
+  },
+  "embeddings-palabrasSimilitud" : 0.9348624996401791,
+  "glovePalabras" : [ [ "assessment", "assessments", 0.829235717147836 ], [ "assessment", "evaluation", 0.8064161516820215 ], [ "generative", "ai", 0.04469411121271576 ], [ "higher", "tertiary", 0.3623521483433304 ], [ "students", "teachers", 0.8670382056561429 ], [ "plagiarism", "cheating", 0.6323554362359148 ], [ "integrity", "plagiarism", 0.1936195299202707 ] ],
+  "resumen" : [ {
+    "id" : "levenshtein",
+    "nombre" : "Levenshtein",
+    "tipo" : "CLASICO",
+    "similitudAB" : 0.2985185185185185,
+    "media" : 0.2808815025698322,
+    "min" : 0.23340627279358128,
+    "max" : 0.32063773250664307,
+    "puesto" : 48,
+    "pares" : 190,
+    "msPorPar" : 4.122394
+  }, {
+    "id" : "needleman-wunsch",
+    "nombre" : "NeedlemanWunsch",
+    "tipo" : "CLASICO",
+    "similitudAB" : 0.06837606837606838,
+    "media" : 0.05295546051759168,
+    "min" : 0.015037593984962405,
+    "max" : 0.11016949152542373,
+    "puesto" : 44,
+    "pares" : 190,
+    "msPorPar" : 0.30992226315789473
+  }, {
+    "id" : "jaccard",
+    "nombre" : "Jaccard",
+    "tipo" : "CLASICO",
+    "similitudAB" : 0.08633093525179857,
+    "media" : 0.09139124758823462,
+    "min" : 0.027777777777777776,
+    "max" : 0.16279069767441862,
+    "puesto" : 104,
+    "pares" : 190,
+    "msPorPar" : 0.16286496842105264
+  }, {
+    "id" : "coseno-tfidf",
+    "nombre" : "CosenoTfIdf",
+    "tipo" : "CLASICO",
+    "similitudAB" : 0.18635629648267102,
+    "media" : 0.10158258667797486,
+    "min" : 0.020454478585291085,
+    "max" : 0.3001455848185298,
+    "puesto" : 15,
+    "pares" : 190,
+    "msPorPar" : 0.1919923157894737
+  }, {
+    "id" : "embeddings-oracion",
+    "nombre" : "EmbeddingsOracion",
+    "tipo" : "IA",
+    "similitudAB" : 0.7354903500418897,
+    "media" : 0.5645552483869727,
+    "min" : 0.3539717403881025,
+    "max" : 0.8210755205749545,
+    "puesto" : 9,
+    "pares" : 190,
+    "msPorPar" : 4.916715463157894
+  }, {
+    "id" : "embeddings-palabras",
+    "nombre" : "EmbeddingsPalabras",
+    "tipo" : "IA",
+    "similitudAB" : 0.9348624996401791,
+    "media" : 0.9583343420538956,
+    "min" : 0.9237020911459806,
+    "max" : 0.9848332969247757,
+    "puesto" : 179,
+    "pares" : 190,
+    "msPorPar" : 0.020293052631578948
+  } ],
+  "spearmanIds" : [ "levenshtein", "needleman-wunsch", "jaccard", "coseno-tfidf", "embeddings-oracion", "embeddings-palabras" ],
+  "spearman" : [ [ 1.0, 0.4813316613895499, 0.13417264409195612, 0.2991926986434684, 0.2253987846547415, 0.23097470584308785 ], [ 0.4813316613895499, 1.0, 0.43013966476195165, 0.6572971490575596, 0.37654929049174984, 0.4333052812186279 ], [ 0.13417264409195612, 0.43013966476195165, 1.0, 0.6245960637953549, 0.3798697606505831, 0.4886250509719065 ], [ 0.2991926986434684, 0.6572971490575596, 0.6245960637953549, 1.0, 0.6621308944262926, 0.5387841331076382 ], [ 0.2253987846547415, 0.37654929049174984, 0.3798697606505831, 0.6621308944262926, 1.0, 0.5529276944542858 ], [ 0.23097470584308785, 0.4333052812186279, 0.4886250509719065, 0.5387841331076382, 0.5529276944542858, 1.0 ] ]
+}

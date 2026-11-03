@@ -1,7 +1,27 @@
 package co.edu.uniquindio.bibliometria.service;
 
-/**
- * Acceso al corpus ya procesado.
- */
+import co.edu.uniquindio.bibliometria.corpus.Articulo;
+import co.edu.uniquindio.bibliometria.corpus.RepositorioCorpus;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+/** Da acceso a los artículos del corpus. */
+@Service
 public class CorpusService {
+
+    private final RepositorioCorpus corpus;
+
+    public CorpusService(RepositorioCorpus corpus) {
+        this.corpus = corpus;
+    }
+
+    public List<Articulo> listar() {
+        return corpus.todos();
+    }
+
+    public Optional<Articulo> buscar(String id) {
+        return corpus.porId(id);
+    }
 }

@@ -1,0 +1,161 @@
+<section class="pagina">
+  <header>
+    <p class="antetitulo">Requerimiento 3</p>
+    <h1>Búsqueda de patrones</h1>
+    <p class="subtitulo">
+      Encuentra una cadena exacta en los 20 abstracts con KMP, Boyer-Moore y Rabin-Karp. El patrón se normaliza
+      igual que los abstracts: minúsculas, sin tildes ni signos.
+    </p>
+  </header>
+
+  <div class="mando">
+    <form class="controles" (submit)="$event.preventDefault(); buscar()">
+      <label for="patron" class="etiqueta">Patrón</label>
+      <input id="patron" type="text" #caja [value]="patron()" (input)="patron.set(caja.value)" placeholder="Por ejemplo: generative" autocomplete="off" />
+      <button type="submit" [disabled]="cargando()">{{ cargando() ? 'Buscando…' : 'Buscar' }}</button>
+    </form>
+    <div class="ejemplos">
+      <span>Ejemplos:</span>
+      @for (e of ejemplos; track e) {
+        <button type="button" class="ejemplo" (click)="usarEjemplo(e)">{{ e }}</button>
+      }
+    </div>
+    <div class="controles opciones">
+      <label class="opcion">
+        <input type="checkbox" #traza [checked]="conTraza()" (change)="conTraza.set(traza.checked)" />
+        Ver el paso a paso
+      </label>
+      @if (conTraza()) {
+        <label for="articuloTraza">en</label>
+        <select id="articuloTraza" #selector (change)="articuloTraza.set(selector.value || null)">
+          <option value="">el primer artículo con ocurrencias</option>
+          @for (a of articulos(); track a.id) {
+            <option [value]="a.id">{{ a.id }}. {{ a.titulo }}</option>
+          }
+        </select>
+      }
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (respuesta(); as r) {
+    <div class="titular">
+      <div>
+        <p class="antetitulo">Resultado para</p>
+        <p class="buscado">«{{ r.patron }}»</p>
+      </div>
+      <p class="total">
+        <strong>{{ r.resultados[0].totalOcurrencias | number }}</strong>
+        {{ r.resultados[0].totalOcurrencias === 1 ? 'ocurrencia' : 'ocurrencias' }} en
+        <strong>{{ r.resultados[0].porArticulo.length }}</strong>
+        {{ r.resultados[0].porArticulo.length === 1 ? 'artículo' : 'artículos' }}
+      </p>
+      @if (coinciden()) {
+        <span class="insignia">✓ Los tres algoritmos encontraron las mismas posiciones</span>
+      } @else {
+        <span class="insignia alerta">Los algoritmos no coinciden en las posiciones</span>
+      }
+    </div>
+
+    <div class="algoritmos">
+      @for (x of r.resultados; track x.algoritmo) {
+        <article class="tarjeta algoritmo">
+          <h3>{{ nombre(x.algoritmo) }}</h3>
+          <p class="etiqueta-dato">Comparaciones de caracteres</p>
+          <p class="dato">{{ x.comparaciones | number }}</p>
+          <span class="pista" aria-hidden="true"><span [style.width.%]="(x.comparaciones / mayorComparaciones()) * 100"></span></span>
+          <dl>
+            <div><dt>Preprocesamiento</dt><dd>{{ microsegundos(x.preprocesamientoNs) | number: '1.1-1' }} µs</dd></div>
+            <div><dt>Búsqueda</dt><dd>{{ microsegundos(x.busquedaNs) | number: '1.1-1' }} µs</dd></div>
+          </dl>
+        </article>
+      }
+    </div>
+    <p class="nota">
+      Estos tiempos son de una sola ejecución y varían mucho; para compararlos usa
+      la pantalla de Rendimiento. Rabin-Karp solo cuenta los caracteres que compara al verificar, no los hashes.
+    </p>
+
+    @if (r.articuloTraza) {
+      <h2>Paso a paso en el artículo {{ r.articuloTraza }}</h2>
+      @for (g of graficas(); track g.algoritmo) {
+        <article class="tarjeta">
+          <div class="cabeza-grafica">
+            <h3>{{ nombre(g.algoritmo) }}</h3>
+            <p class="nota">
+              {{ g.total | number }} iteraciones · avanza {{ g.promedio | number: '1.1-1' }} caracteres en promedio · máximo {{ g.maximo }}
+            </p>
+          </div>
+          <div class="grafica" role="img" [attr.aria-label]="'Desplazamiento por iteración de ' + nombre(g.algoritmo) + '. El detalle está en la tabla de pasos.'">
+            <span class="eje-max">{{ g.maximo }}</span>
+            <div class="barras" (mouseleave)="senalar(g.algoritmo, '')">
+              @for (b of g.barras; track b.numero) {
+                <span class="columna" (mouseenter)="senalar(g.algoritmo, 'Iteración ' + b.numero + ': avanza ' + b.valor + '. ' + b.descripcion)">
+                  <span class="barra" [style.height.%]="b.alto"></span>
+                </span>
+              }
+            </div>
+          </div>
+          <p class="lectura" aria-live="polite">
+            {{ lectura()[g.algoritmo] || 'Desplazamiento en cada iteración' + (g.recortado ? ' (primeras ' + maximoBarras + ')' : '') + '. Pasa el cursor sobre una barra para ver el detalle.' }}
+          </p>
+          <details class="pasos-detalle">
+            <summary>Ver los pasos ({{ g.pasos.length | number }})</summary>
+            <div class="tabla-contenedor pasos">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col" class="num">N.º</th>
+                    <th scope="col">Paso</th>
+                    <th scope="col">Datos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of g.pasos.slice(0, maximoPasos); track p.numero) {
+                    <tr>
+                      <td class="num">{{ p.numero }}</td>
+                      <td>{{ p.descripcion }}</td>
+                      <td class="datos">{{ p.datos }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            @if (g.pasos.length > maximoPasos) {
+              <p class="nota">Se muestran los primeros {{ maximoPasos }} pasos.</p>
+            }
+          </details>
+        </article>
+      }
+    }
+
+    <h2>Dónde aparece</h2>
+    @for (f of filas(); track f.articulo.id) {
+      <article class="tarjeta aparicion">
+        <div class="cabeza-aparicion">
+          <span class="id">{{ f.articulo.id }}</span>
+          <h3>{{ f.articulo.titulo }}</h3>
+          <span class="conteo">{{ f.total }} {{ f.total === 1 ? 'ocurrencia' : 'ocurrencias' }}</span>
+        </div>
+        @for (fragmento of f.fragmentos; track $index) {
+          <p class="fragmento">
+            @for (t of fragmento; track $index) {
+              @if (t.marcado) {
+                <mark>{{ t.texto }}</mark>
+              } @else {
+                <span>{{ t.texto }}</span>
+              }
+            }
+          </p>
+        }
+      </article>
+    } @empty {
+      <p class="vacio">El patrón no aparece en ningún abstract.</p>
+    }
+  } @else if (!cargando() && !error()) {
+    <p class="vacio">Escribe un patrón o elige un ejemplo para ver dónde aparece.</p>
+  }
+</section>
