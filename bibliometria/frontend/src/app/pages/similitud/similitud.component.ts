@@ -77,18 +77,21 @@ const ETIQUETAS: Record<string, { etiqueta: string; tipo: 'CLASICO' | 'IA'; crud
 };
 
 // Rampa secuencial azul (claro -> oscuro) para la matriz: similitud 0 -> paso 100, 1 -> paso 700.
-const RAMPA = ['#cde2fb', '#b7d3f6', '#9ec5f4', '#86b6ef', '#6da7ec', '#5598e7', '#3987e5',
-  '#2a78d6', '#256abf', '#1c5cab', '#184f95', '#104281', '#0d366b'];
+const RAMPA = ['#dcefe2', '#c9e6d4', '#b4dcc4', '#9dd1b3', '#85c5a1', '#6bb88e', '#50aa7a',
+  '#17804f', '#127547', '#0d6a3f', '#085e37', '#044f2d', '#003d20'];
 
 @Component({
   selector: 'app-similitud',
   standalone: true,
   imports: [CommonModule, FormsModule, DecimalPipe],
   template: `
-    <section class="similitud">
-      <h1>R1 · Similitud textual</h1>
-      <p class="ayuda">Elige dos o más artículos y los algoritmos a aplicar. Con exactamente dos
-        artículos puedes ver los pasos intermedios de cada algoritmo.</p>
+    <section class="pagina">
+      <header>
+        <p class="antetitulo">Requerimiento 1</p>
+        <h1>Similitud textual</h1>
+        <p class="subtitulo">Elige dos o más artículos y los algoritmos a aplicar. Con exactamente dos
+          artículos puedes ver los pasos intermedios de cada algoritmo.</p>
+      </header>
 
       <div class="columnas">
         <div class="panel">
@@ -227,30 +230,45 @@ const RAMPA = ['#cde2fb', '#b7d3f6', '#9ec5f4', '#86b6ef', '#6da7ec', '#5598e7',
     </section>
   `,
   styles: [`
-    .similitud { max-width: 1200px; margin: 0 auto; padding: 1rem; font-family: system-ui, sans-serif; color: #1a1a19; }
-    .ayuda, .nota { color: #5f5e5a; }
-    .columnas { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; }
-    .panel { border: 1px solid #e3e2de; border-radius: 8px; padding: 1rem; background: #fcfcfb; }
-    .lista { list-style: none; padding: 0; max-height: 360px; overflow-y: auto; }
-    .lista li { padding: 4px 0; }
-    .id { display: inline-block; min-width: 2em; font-weight: 600; }
-    .algoritmo, .traza { display: block; margin: 4px 0; }
-    .deshabilitado { color: #8a8984; }
-    input[type=search] { width: 100%; padding: 6px; box-sizing: border-box; }
-    button { margin-top: 1rem; padding: 8px 16px; }
-    .error { color: #b3261e; }
-    table { border-collapse: collapse; }
-    .resultados { width: 100%; margin-bottom: 1rem; }
-    .resultados th, .resultados td { border-bottom: 1px solid #e3e2de; padding: 6px 8px; text-align: left; vertical-align: top; }
-    .valor { white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .barra { display: inline-block; width: 120px; height: 10px; background: #f0efec; vertical-align: middle; margin-right: 6px; }
-    .barra span { display: block; height: 100%; background: #2a78d6; border-radius: 0 4px 4px 0; }
-    .detalle { color: #5f5e5a; font-size: 0.9em; }
-    .matrices { display: flex; flex-wrap: wrap; gap: 1.5rem; }
-    .matriz th, .matriz td { padding: 4px 6px; text-align: center; font-variant-numeric: tabular-nums; }
-    .matriz td { border: 2px solid #fcfcfb; min-width: 3em; }
-    .pasos td { border-bottom: 1px solid #f0efec; padding: 2px 6px; font-size: 0.85em; }
-    @media (max-width: 800px) { .columnas { grid-template-columns: 1fr; } }
+    .columnas { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; align-items: start; }
+    .panel { padding: 1.25rem 1.4rem; background: var(--superficie); border: 1px solid var(--linea); border-radius: 14px; box-shadow: var(--sombra); }
+    .panel h2 { margin: 0 0 0.7rem; font-size: 1.15rem; }
+    .panel h3 { margin: 1rem 0 0.3rem; font: 600 0.72rem var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-3); }
+    .panel input[type=search] { display: block; width: 100%; }
+    .lista { list-style: none; margin: 0.7rem 0 0; padding: 0; max-height: 400px; overflow-y: auto; }
+    .lista li { border-top: 1px solid var(--linea); }
+    .lista label { display: flex; gap: 0.55rem; align-items: baseline; padding: 0.5rem 0.3rem; cursor: pointer; }
+    .lista label:hover { background: var(--hundido); }
+    .lista input { align-self: center; }
+    .id { flex: none; min-width: 1.5em; text-align: right; font: 600 0.98rem var(--serif); font-variant-numeric: lining-nums; color: var(--acento); }
+    .vacio { margin: 0.7rem 0 0; }
+    .algoritmo, .traza { display: flex; gap: 0.5rem; align-items: center; margin: 0.35rem 0; cursor: pointer; }
+    .traza { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--linea); font-size: 0.86rem; color: var(--tinta-2); }
+    .deshabilitado { color: var(--tinta-3); }
+    .panel button { width: 100%; margin-top: 1rem; }
+    .resultados { margin-bottom: 1rem; background: var(--superficie); border: 1px solid var(--linea); }
+    .resultados th, .resultados td { vertical-align: middle; }
+    .valor { white-space: nowrap; font: 400 0.87rem var(--mono); font-variant-numeric: tabular-nums; }
+    .barra { display: inline-block; width: 110px; height: 0.6rem; margin-right: 0.5rem; background: var(--hundido); border-radius: 0 4px 4px 0; vertical-align: middle; }
+    .barra span { display: block; height: 100%; background: var(--serie); border-radius: 0 4px 4px 0; }
+    .detalle { font-size: 0.86rem; color: var(--tinta-2); }
+    .matrices { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+    .matrices figure { margin: 0; padding: 1rem 1.2rem; background: var(--superficie); border: 1px solid var(--linea); border-radius: 12px; overflow-x: auto; max-width: 100%; }
+    figcaption { margin-bottom: 0.6rem; font: 600 1rem var(--serif); }
+    figcaption small { font: 400 0.76rem var(--sans); color: var(--tinta-3); }
+    .matriz { width: auto; }
+    .matriz th, .matriz td { padding: 0.28rem 0.42rem; text-align: center; border: 0; font: 400 0.8rem var(--mono); font-variant-numeric: tabular-nums; }
+    .matriz th { color: var(--tinta-3); font-weight: 400; }
+    .matriz td { min-width: 3em; border: 2px solid var(--superficie); border-radius: 4px; }
+    details { margin-bottom: 0.5rem; padding: 0.7rem 1rem; background: var(--superficie); border: 1px solid var(--linea); border-radius: 10px; }
+    summary { font-weight: 500; color: var(--acento); }
+    .pasos { margin-top: 0.6rem; }
+    .pasos td { padding: 0.25rem 0.55rem; font-size: 0.84rem; }
+    .resultados td:first-child { white-space: nowrap; }
+    @media (max-width: 860px) {
+      .columnas { grid-template-columns: minmax(0, 1fr); }
+      .resultados { display: block; overflow-x: auto; border-radius: 10px; }
+    }
   `],
 })
 export class SimilitudComponent implements OnInit {

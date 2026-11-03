@@ -1,1 +1,199 @@
-/* You can add global styles to this file, and also import other style files */
+/* Sistema visual de la aplicación: colores, tipografía y componentes comunes a todas las pantallas. */
+@import '@fontsource-variable/source-serif-4/index.css';
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-500.css';
+@import '@fontsource/ibm-plex-sans/latin-600.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+
+:root {
+  color-scheme: light dark;
+  --papel: #f7f5ef;
+  --superficie: #fffefb;
+  --hundido: #efece3;
+  --tinta: #1a211c;
+  --tinta-2: #4f5a52;
+  --tinta-3: #6d776f;
+  --linea: #ddd9cc;
+  --linea-fuerte: #c6c2b3;
+  --acento: #00703c;
+  --acento-oscuro: #005a30;
+  --acento-suave: #e1efe6;
+  --sobre-acento: #ffffff;
+  --marca: #f8df8b;
+  --sobre-marca: #2b2308;
+  --serie: #00703c;
+  --serie-hover: #00451f;
+  --ok-fondo: #dcefe2;
+  --ok-tinta: #0f4a2a;
+  --alerta-fondo: #fbe4df;
+  --alerta-tinta: #8a2415;
+  --lateral: #0f2a1c;
+  --lateral-tinta: #dfe9e1;
+  --lateral-tenue: #93aa9b;
+  --sombra: 0 1px 2px rgb(30 40 30 / 0.05), 0 8px 24px -14px rgb(30 40 30 / 0.2);
+  --serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #111613;
+    --superficie: #181f1a;
+    --hundido: #222a24;
+    --tinta: #edf1ec;
+    --tinta-2: #b9c4bc;
+    --tinta-3: #94a199;
+    --linea: #2e3831;
+    --linea-fuerte: #435047;
+    --acento: #54c088;
+    --acento-oscuro: #74d3a1;
+    --acento-suave: #1d3327;
+    --sobre-acento: #06170d;
+    --marca: #e7c75d;
+    --sobre-marca: #241c02;
+    --serie: #54c088;
+    --serie-hover: #9be4bd;
+    --ok-fondo: #1d3327;
+    --ok-tinta: #a4e3c0;
+    --alerta-fondo: #3d1f19;
+    --alerta-tinta: #f7b9ab;
+    --lateral: #0b120d;
+    --sombra: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 26px -16px rgb(0 0 0 / 0.7);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font: 400 1rem/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+
+:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; border-radius: 3px; }
+
+code { font-family: var(--mono); font-size: 0.88em; }
+
+/* Estructura de una pantalla */
+.pagina { max-width: 1120px; margin: 0 auto; padding: 2.75rem 2rem 4.5rem; }
+.pagina > header { margin-bottom: 1.75rem; }
+.antetitulo {
+  margin: 0 0 0.45rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--acento);
+}
+h1, h2, h3 { font-family: var(--serif); color: var(--tinta); text-wrap: balance; }
+h1 { margin: 0 0 0.6rem; font-size: clamp(1.9rem, 3.2vw, 2.55rem); line-height: 1.12; font-weight: 600; letter-spacing: -0.015em; }
+h2 { margin: 2.75rem 0 0.9rem; font-size: 1.4rem; line-height: 1.25; font-weight: 600; letter-spacing: -0.005em; }
+h3 { margin: 0 0 0.35rem; font-size: 1.08rem; line-height: 1.3; font-weight: 600; }
+.subtitulo { margin: 0; max-width: 66ch; font-size: 1.05rem; color: var(--tinta-2); }
+.nota { margin: 0.6rem 0; max-width: 78ch; font-size: 0.88rem; color: var(--tinta-3); }
+.vacio {
+  margin-top: 1.75rem;
+  padding: 2.25rem 1.5rem;
+  border: 1px dashed var(--linea-fuerte);
+  border-radius: 10px;
+  text-align: center;
+  color: var(--tinta-3);
+}
+
+/* Controles */
+.controles { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+label { font-size: 0.92rem; }
+input[type='text'], input[type='search'], input[type='number'], select {
+  min-height: 2.65rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 8px;
+  background: var(--superficie);
+  color: var(--tinta);
+  font: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input[type='text'], input[type='search'] { flex: 1 1 18rem; min-width: 0; }
+input[type='number'] { width: 6.5rem; font-variant-numeric: tabular-nums; }
+select { max-width: 100%; }
+input:hover, select:hover { border-color: var(--tinta-3); }
+input[type='text']:focus, input[type='search']:focus, input[type='number']:focus, select:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px var(--acento-suave);
+}
+input[type='checkbox'], input[type='radio'] { width: 1.05rem; height: 1.05rem; accent-color: var(--acento); flex: none; }
+::placeholder { color: var(--tinta-3); opacity: 1; }
+
+button {
+  min-height: 2.65rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid var(--acento);
+  border-radius: 8px;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font: 600 0.95rem/1.2 var(--sans);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, transform 0.05s;
+}
+button:hover:not(:disabled) { background: var(--acento-oscuro); border-color: var(--acento-oscuro); }
+button:active:not(:disabled) { transform: translateY(1px); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ejemplos { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.8rem; font-size: 0.85rem; color: var(--tinta-3); }
+button.ejemplo {
+  min-height: 0;
+  padding: 0.22rem 0.7rem;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tinta-2);
+  font-weight: 400;
+  font-size: 0.84rem;
+}
+button.ejemplo:hover:not(:disabled) { background: var(--acento-suave); border-color: var(--acento); color: var(--tinta); }
+.opcion { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+
+/* Tarjetas y panel de controles */
+.tarjeta { padding: 1.25rem 1.4rem; margin-bottom: 1rem; background: var(--superficie); border: 1px solid var(--linea); border-radius: 12px; box-shadow: var(--sombra); }
+.mando { padding: 1.25rem 1.4rem; background: var(--superficie); border: 1px solid var(--linea); border-radius: 14px; box-shadow: var(--sombra); }
+
+/* Tablas */
+.tabla-contenedor { overflow-x: auto; background: var(--superficie); border: 1px solid var(--linea); border-radius: 12px; }
+table { border-collapse: collapse; width: 100%; }
+.tabla-contenedor table { min-width: 560px; }
+th, td { padding: 0.68rem 0.95rem; text-align: left; border-bottom: 1px solid var(--linea); font-size: 0.93rem; }
+thead th { font-size: 0.73rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tinta-3); background: var(--hundido); white-space: nowrap; }
+tbody tr:last-child > * { border-bottom: 0; }
+tbody th { font-weight: 600; }
+th.num, td.num { text-align: right; font-family: var(--mono); font-size: 0.87rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+thead th.num { font-family: var(--sans); font-size: 0.73rem; }
+
+/* Mensajes */
+.error { margin: 1rem 0 0; padding: 0.7rem 1rem; border-radius: 8px; background: var(--alerta-fondo); color: var(--alerta-tinta); font-size: 0.93rem; }
+.insignia { display: inline-block; padding: 0.14rem 0.62rem; border-radius: 999px; font-size: 0.76rem; font-weight: 600; background: var(--ok-fondo); color: var(--ok-tinta); white-space: nowrap; }
+.insignia.alerta { background: var(--alerta-fondo); color: var(--alerta-tinta); }
+
+/* Cifras destacadas */
+.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1px; margin: 0 0 1.5rem; background: var(--linea); border: 1px solid var(--linea); border-radius: 12px; overflow: hidden; }
+.cifras > div { padding: 1rem 1.2rem; background: var(--superficie); }
+.cifras dt { font-size: 0.78rem; color: var(--tinta-3); }
+.cifras dd { margin: 0.1rem 0 0; font-family: var(--serif); font-size: 1.8rem; font-weight: 600; line-height: 1.15; font-variant-numeric: tabular-nums lining-nums; }
+
+details > summary { cursor: pointer; }
+
+@media (max-width: 640px) {
+  .pagina { padding: 1.75rem 1rem 3rem; }
+  .tarjeta, .mando { padding: 1rem; }
+  h2 { margin-top: 2.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}

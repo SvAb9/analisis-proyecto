@@ -1,5 +1,6 @@
 <section class="pagina">
   <header>
+    <p class="antetitulo">Requerimiento 2</p>
     <h1>Agrupamiento jerárquico</h1>
     <p class="subtitulo">
       Agrupa los 20 artículos según qué tan parecidos son sus abstracts. Se construye un árbol con cada uno de
@@ -7,8 +8,8 @@
     </p>
   </header>
 
-  <div class="controles">
-    <label for="similitud">Algoritmo de similitud</label>
+  <div class="controles mando">
+    <label for="similitud" class="etiqueta">Algoritmo de similitud</label>
     <select id="similitud" #selector (change)="seleccionado.set(selector.value)">
       @for (nombre of algoritmos(); track nombre) {
         <option [value]="nombre" [selected]="nombre === seleccionado()">{{ nombre }}</option>

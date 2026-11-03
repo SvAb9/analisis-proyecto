@@ -7,6 +7,7 @@ import { ApiService } from '../../services/api.service';
 
 const REPETICIONES_POR_DEFECTO = 101;
 const REPETICIONES_MAXIMAS = 1001;
+const NOMBRES: Record<string, string> = { KMP: 'KMP', BoyerMoore: 'Boyer-Moore', RabinKarp: 'Rabin-Karp' };
 
 /** Panel de barras de una sola medida; cada panel tiene su propia escala. */
 interface Panel {
@@ -19,7 +20,7 @@ interface Panel {
   selector: 'app-rendimiento',
   imports: [DecimalPipe],
   templateUrl: './rendimiento.component.html',
-  styleUrls: ['../pagina-comun.css', './rendimiento.component.css'],
+  styleUrl: './rendimiento.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RendimientoComponent {
@@ -71,6 +72,21 @@ export class RendimientoComponent {
       },
     });
   }
+
+  protected nombre(algoritmo: string): string {
+    return NOMBRES[algoritmo] ?? algoritmo;
+  }
+
+  /** Algoritmo con el menor tiempo total de la medición. */
+  protected readonly masRapido = computed(() => {
+    const r = this.respuesta();
+    if (!r || r.mediciones.length === 0) {
+      return null;
+    }
+    return r.mediciones.reduce((mejor, m) =>
+      m.preprocesamientoNs + m.busquedaNs < mejor.preprocesamientoNs + mejor.busquedaNs ? m : mejor,
+    );
+  });
 
   protected microsegundos(ns: number): number {
     return ns / 1000;

@@ -1,11 +1,21 @@
 <section class="pagina">
   <header>
-    <h1>Corpus</h1>
+    <p class="antetitulo">Datos de entrada</p>
+    <h1>Corpus de artículos</h1>
     <p class="subtitulo">
-      Los 20 artículos de los que parten los tres requerimientos. El título y los autores están verificados
-      contra cada PDF; el abstract se extrae automáticamente.
+      Las revisiones de literatura sobre inteligencia artificial en educación de las que parten los tres
+      requerimientos. El abstract se extrae de cada PDF; el título y los autores están verificados a mano.
     </p>
   </header>
+
+  @if (!cargando() && !error()) {
+    <dl class="cifras">
+      <div><dt>Artículos</dt><dd>{{ cifras().articulos }}</dd></div>
+      <div><dt>Autores distintos</dt><dd>{{ cifras().autores }}</dd></div>
+      <div><dt>Palabras en los abstracts</dt><dd>{{ cifras().palabras | number }}</dd></div>
+      <div><dt>Promedio por abstract</dt><dd>{{ cifras().promedio }}</dd></div>
+    </dl>
+  }
 
   <div class="controles">
     <label for="filtro" class="oculto">Filtrar por título o autor</label>
@@ -22,21 +32,26 @@
   @if (cargando()) {
     <p class="vacio">Cargando artículos…</p>
   } @else if (!error()) {
-    <p class="nota">{{ visibles().length }} de {{ articulos().length }} artículos</p>
-    @for (a of visibles(); track a.id) {
-      <details class="tarjeta articulo">
-        <summary>
-          <span class="numero">{{ a.id }}</span>
-          <span>
-            <strong>{{ a.titulo }}</strong>
-            <span class="autores">{{ a.autores.join(', ') }}</span>
-          </span>
-        </summary>
-        <p class="resumen">{{ verProcesado() ? a.abstractProcesado : a.abstractCrudo }}</p>
-        <p class="nota">{{ palabras(a.abstractCrudo) }} palabras</p>
-      </details>
-    } @empty {
-      <p class="vacio">Ningún artículo coincide con el filtro.</p>
-    }
+    <p class="nota conteo">{{ visibles().length }} de {{ articulos().length }} artículos</p>
+    <div class="lista">
+      @for (a of visibles(); track a.id) {
+        <details class="articulo">
+          <summary>
+            <span class="numero">{{ a.id }}</span>
+            <span class="datos">
+              <strong>{{ a.titulo }}</strong>
+              <span class="autores">{{ a.autores.join(' · ') }}</span>
+            </span>
+            <span class="flecha" aria-hidden="true">›</span>
+          </summary>
+          <div class="cuerpo">
+            <p class="resumen" [class.procesado]="verProcesado()">{{ verProcesado() ? a.abstractProcesado : a.abstractCrudo }}</p>
+            <p class="nota">{{ palabras(a.abstractCrudo) }} palabras · {{ verProcesado() ? 'texto procesado: es el que reciben los algoritmos' : 'texto original del PDF' }}</p>
+          </div>
+        </details>
+      } @empty {
+        <p class="vacio">Ningún artículo coincide con el filtro.</p>
+      }
+    </div>
   }
 </section>

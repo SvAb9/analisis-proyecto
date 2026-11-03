@@ -1,5 +1,6 @@
 <section class="pagina">
   <header>
+    <p class="antetitulo">Requerimiento 3</p>
     <h1>Rendimiento de la búsqueda</h1>
     <p class="subtitulo">
       Mide cuánto tarda cada algoritmo en preparar sus estructuras y cuánto en recorrer los 20 abstracts. La medición
@@ -7,10 +8,11 @@
     </p>
   </header>
 
+  <div class="mando">
   <form class="controles" (submit)="$event.preventDefault(); medir()">
-    <label for="patron">Patrón</label>
+    <label for="patron" class="etiqueta">Patrón</label>
     <input id="patron" type="text" #caja [value]="patron()" (input)="patron.set(caja.value)" />
-    <label for="repeticiones">Repeticiones</label>
+    <label for="repeticiones" class="etiqueta">Repeticiones</label>
     <input id="repeticiones" type="number" min="1" [max]="maximo" #rep [value]="repeticiones()" (input)="repeticiones.set(rep.valueAsNumber)" />
     <button type="submit" [disabled]="cargando()">{{ cargando() ? 'Midiendo…' : 'Medir' }}</button>
   </form>
@@ -20,24 +22,33 @@
       <button type="button" class="ejemplo" [disabled]="cargando()" (click)="usarEjemplo(e)">{{ e }}</button>
     }
   </div>
+  </div>
 
   @if (error()) {
     <p class="error" role="alert">{{ error() }}</p>
   }
 
   @if (respuesta(); as r) {
-    <h2>«{{ r.patron }}»</h2>
-    <p class="nota">
-      Patrón de m = {{ r.largoPatron }} caracteres sobre n = {{ r.caracteres | number }} caracteres ({{ r.articulos }}
-      abstracts). Mediana de {{ r.repeticiones }} repeticiones, tras descartar {{ r.calentamiento }}.
-    </p>
+    <div class="titular">
+      <p class="antetitulo">Medición para</p>
+      <p class="buscado">«{{ r.patron }}»</p>
+    </div>
+    <dl class="cifras">
+      <div><dt>Largo del patrón (m)</dt><dd>{{ r.largoPatron }}</dd></div>
+      <div><dt>Caracteres del corpus (n)</dt><dd>{{ r.caracteres | number }}</dd></div>
+      <div><dt>Repeticiones medidas</dt><dd>{{ r.repeticiones }}</dd></div>
+      @if (masRapido(); as m) {
+        <div><dt>Menor tiempo total</dt><dd>{{ nombre(m.algoritmo) }}</dd></div>
+      }
+    </dl>
     <div class="paneles">
       @for (panel of paneles(); track panel.titulo) {
         <figure class="tarjeta panel">
           <figcaption>{{ panel.titulo }}</figcaption>
+          <p class="escala">Mediana sobre los {{ r.articulos }} abstracts. Cada panel tiene su propia escala.</p>
           @for (b of panel.barras; track b.algoritmo) {
-            <div class="fila" [title]="b.algoritmo + ': ' + (b.valor | number: '1.1-1') + ' µs'">
-              <span class="nombre">{{ b.algoritmo }}</span>
+            <div class="fila" [title]="nombre(b.algoritmo) + ': ' + (b.valor | number: '1.1-1') + ' µs'">
+              <span class="nombre">{{ nombre(b.algoritmo) }}</span>
               <span class="pista"><span class="relleno" [style.width.%]="b.ancho"></span></span>
               <span class="valor">{{ b.valor | number: '1.1-1' }}</span>
             </div>
@@ -45,7 +56,7 @@
         </figure>
       }
     </div>
-    <p class="nota">Cada panel tiene su propia escala: el preprocesamiento suele ser mucho menor que la búsqueda.</p>
+    <p class="nota pie">Se descartan {{ r.calentamiento }} pasadas de calentamiento antes de medir, para que la JVM compile el código.</p>
 
     <div class="tabla-contenedor">
       <table>
@@ -63,7 +74,7 @@
         <tbody>
           @for (m of r.mediciones; track m.algoritmo) {
             <tr>
-              <th scope="row">{{ m.algoritmo }}</th>
+              <th scope="row">{{ nombre(m.algoritmo) }}</th>
               <td class="num">{{ microsegundos(m.preprocesamientoNs) | number: '1.1-1' }}</td>
               <td class="num">{{ microsegundos(m.busquedaNs) | number: '1.1-1' }}</td>
               <td class="num">{{ microsegundos(m.minimoNs) | number: '1.1-1' }}</td>
@@ -84,10 +95,10 @@
           <thead>
             <tr>
               <th scope="col">Patrón</th>
-              <th scope="col" class="num">m</th>
+              <th scope="col" class="num largo">m</th>
               <th scope="col" class="num">KMP</th>
-              <th scope="col" class="num">BoyerMoore</th>
-              <th scope="col" class="num">RabinKarp</th>
+              <th scope="col" class="num">Boyer-Moore</th>
+              <th scope="col" class="num">Rabin-Karp</th>
             </tr>
           </thead>
           <tbody>

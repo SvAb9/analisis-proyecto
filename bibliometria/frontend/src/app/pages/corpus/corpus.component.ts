@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 
 import { Articulo } from '../../models/api.models';
@@ -6,8 +7,9 @@ import { ApiService } from '../../services/api.service';
 /** Lista de artículos y vista del abstract. */
 @Component({
   selector: 'app-corpus',
+  imports: [DecimalPipe],
   templateUrl: './corpus.component.html',
-  styleUrls: ['../pagina-comun.css', './corpus.component.css'],
+  styleUrl: './corpus.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CorpusComponent implements OnInit {
@@ -27,6 +29,17 @@ export class CorpusComponent implements OnInit {
     return this.articulos().filter(
       (a) => a.titulo.toLowerCase().includes(texto) || a.autores.join(' ').toLowerCase().includes(texto),
     );
+  });
+
+  protected readonly cifras = computed(() => {
+    const articulos = this.articulos();
+    const palabras = articulos.reduce((total, a) => total + this.palabras(a.abstractCrudo), 0);
+    return {
+      articulos: articulos.length,
+      autores: new Set(articulos.flatMap((a) => a.autores)).size,
+      palabras,
+      promedio: articulos.length ? Math.round(palabras / articulos.length) : 0,
+    };
   });
 
   ngOnInit(): void {
