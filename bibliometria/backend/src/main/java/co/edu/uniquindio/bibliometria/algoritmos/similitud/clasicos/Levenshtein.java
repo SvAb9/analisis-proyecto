@@ -5,23 +5,7 @@ import co.edu.uniquindio.bibliometria.algoritmos.similitud.ResultadoSimilitud;
 import co.edu.uniquindio.bibliometria.algoritmos.similitud.SimilitudStrategy;
 import co.edu.uniquindio.bibliometria.algoritmos.traza.Traza;
 
-/**
- * Distancia de edición con matriz DP, normalizada a similitud.
- *
- * <p>Trabaja a nivel de carácter sobre el texto normalizado (minúsculas, sin signos).
- * Recurrencia, con D[i][0] = i y D[0][j] = j:</p>
- * <pre>
- * D[i][j] = min( D[i-1][j] + 1,                      (eliminar a_i)
- *                D[i][j-1] + 1,                      (insertar b_j)
- *                D[i-1][j-1] + (a_i == b_j ? 0 : 1)) (sustituir / coincidir)
- * </pre>
- * <p>Similitud = 1 - D[n][m] / max(n, m).</p>
- *
- * <p>Tiempo Θ(n·m). Espacio Θ(n·m) cuando la traza está activa (hace falta la matriz para
- * mostrarla) y Θ(m) si no, porque cada fila solo depende de la anterior. Con traza activa solo
- * se registran las celdas de la esquina superior izquierda (hasta {@link #LIMITE_TRAZA}): la
- * matriz de dos abstracts completos tiene más de un millón de celdas.</p>
- */
+/** Distancia de edición por caracteres, normalizada a similitud. */
 public class Levenshtein implements SimilitudStrategy {
 
     public static final int LIMITE_TRAZA = 25;
@@ -54,7 +38,6 @@ public class Levenshtein implements SimilitudStrategy {
         return mayor == 0 ? 1.0 : 1.0 - (double) distancia / mayor;
     }
 
-    /** Matriz completa D de tamaño (n+1)×(m+1). Si la traza está activa registra las primeras celdas. */
     public static int[][] matriz(String a, String b, Traza traza) {
         int n = a.length();
         int m = b.length();
@@ -87,7 +70,6 @@ public class Levenshtein implements SimilitudStrategy {
         return d;
     }
 
-    /** Misma recurrencia guardando solo dos filas: espacio Θ(m). */
     public static int distanciaDosFilas(String a, String b) {
         int m = b.length();
         int[] anterior = new int[m + 1];

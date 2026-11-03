@@ -10,16 +10,7 @@ import co.edu.uniquindio.bibliometria.util.estructuras.Nodo;
 
 import java.util.List;
 
-/**
- * Intersección sobre unión de conjuntos de tokens.
- *
- * <p>J(A, B) = |A ∩ B| / |A ∪ B| = |A ∩ B| / (|A| + |B| − |A ∩ B|).</p>
- *
- * <p>Cada conjunto se construye insertando los tokens de contenido en un
- * {@link ArbolBinarioBusqueda}, que descarta los repetidos: O(n·h). Su recorrido inorden da los
- * términos ordenados, y la intersección se cuenta con un recorrido de mezcla de las dos listas
- * ordenadas en O(|A| + |B|). Total O(n log n) en promedio.</p>
- */
+/** Coeficiente de Jaccard entre conjuntos de términos. */
 public class JaccardSimilitud implements SimilitudStrategy {
 
     @Override
@@ -51,7 +42,6 @@ public class JaccardSimilitud implements SimilitudStrategy {
                 conTraza ? traza.pasos() : List.of());
     }
 
-    /** Conjunto ordenado de términos sin repetir. */
     public static ListaEnlazada<String> conjunto(String[] tokens) {
         ArbolBinarioBusqueda<String, Boolean> arbol = new ArbolBinarioBusqueda<>();
         for (String token : tokens) {
@@ -60,7 +50,6 @@ public class JaccardSimilitud implements SimilitudStrategy {
         return arbol.clavesOrdenadas();
     }
 
-    /** Mezcla de dos listas ordenadas: avanza en la que tenga la clave menor. O(|A| + |B|). */
     public static ListaEnlazada<String> interseccion(ListaEnlazada<String> a, ListaEnlazada<String> b) {
         ListaEnlazada<String> comunes = new ListaEnlazada<>();
         Nodo<String> p = a.getCabecera().getSiguiente();

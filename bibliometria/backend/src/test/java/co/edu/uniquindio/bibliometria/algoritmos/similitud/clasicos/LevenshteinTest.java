@@ -7,9 +7,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas unitarias de Levenshtein con casos de resultado conocido.
- */
 class LevenshteinTest {
 
     private final Levenshtein levenshtein = new Levenshtein();

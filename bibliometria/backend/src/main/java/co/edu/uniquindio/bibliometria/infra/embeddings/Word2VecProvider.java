@@ -12,17 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/**
- * Adaptador a vectores preentrenados.
- *
- * <p>Lee un archivo de texto con una palabra y sus componentes por línea (formato GloVe, o
- * word2vec de texto con la línea de encabezado "n d") y guarda el vocabulario en un
- * {@link ArbolBinarioBusqueda} palabra → vector. El vector del abstract es el promedio de los
- * vectores de sus palabras de contenido; las que no están en el vocabulario se ignoran y se
- * informan en la nota (cobertura).</p>
- *
- * <p>Carga O(V·(d + h)); vectorizar un texto de n tokens O(n·(h + d)).</p>
- */
+/** Lee vectores GloVe y promedia los de las palabras del texto. */
 public class Word2VecProvider implements EmbeddingProvider {
 
     private static final Logger log = LoggerFactory.getLogger(Word2VecProvider.class);
@@ -74,7 +64,6 @@ public class Word2VecProvider implements EmbeddingProvider {
         return modelo;
     }
 
-    /** 0 si el archivo de vectores no se encontró. */
     @Override
     public int dimension() {
         return disponible() ? dimension : 0;
@@ -88,12 +77,10 @@ public class Word2VecProvider implements EmbeddingProvider {
         return vocabulario.getCantidad();
     }
 
-    /** Vector de una palabra o null si no está en el vocabulario. */
     public double[] vectorDe(String palabra) {
         return vocabulario.obtener(palabra);
     }
 
-    /** Vector promedio y cobertura: cuántas palabras de contenido tenían vector. */
     public record Detalle(double[] vector, int palabrasConVector, int palabras) {}
 
     @Override

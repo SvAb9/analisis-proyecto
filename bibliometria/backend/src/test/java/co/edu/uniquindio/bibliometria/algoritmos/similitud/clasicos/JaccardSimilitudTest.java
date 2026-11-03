@@ -6,16 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Pruebas unitarias de Jaccard con casos de resultado conocido.
- */
 class JaccardSimilitudTest {
 
     private final JaccardSimilitud jaccard = new JaccardSimilitud();
 
     @Test
     void mitadDeTerminosEnComun() {
-        // A = {artificial, intelligence, education}, B = {artificial, intelligence, assessment}
         ResultadoSimilitud r = jaccard.comparar("artificial intelligence in education",
                 "artificial intelligence for assessment");
         assertEquals(2, r.valorCrudo());

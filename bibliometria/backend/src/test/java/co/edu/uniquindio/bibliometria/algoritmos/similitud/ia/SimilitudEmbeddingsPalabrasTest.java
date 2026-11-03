@@ -15,9 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-/**
- * Pruebas de embeddings de palabras promediados con un archivo de vectores pequeño escrito a mano.
- */
 class SimilitudEmbeddingsPalabrasTest {
 
     @TempDir

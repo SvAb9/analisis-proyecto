@@ -10,21 +10,10 @@ import co.edu.uniquindio.bibliometria.util.VectorMath;
 import co.edu.uniquindio.bibliometria.util.estructuras.ListaEnlazada;
 import co.edu.uniquindio.bibliometria.util.estructuras.Nodo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Coseno entre vectores TF-IDF.
- *
- * <p>cos θ = Σ w_A(t)·w_B(t) / (||w_A|| · ||w_B||). Los dos vectores son dispersos y están
- * ordenados por término, así que el producto punto se calcula con un recorrido de mezcla:
- * solo los términos presentes en ambos documentos aportan. O(|A| + |B|) después de vectorizar.</p>
- *
- * <p>Como pide el contrato, el corpus llega por constructor ({@link RepositorioCorpus}) y el IDF
- * se ajusta una sola vez, la primera vez que se compara, sobre los abstracts de todo el corpus.
- * Sin corpus (constructor vacío) se ajusta solo con los dos textos comparados.</p>
- */
+/** Similitud del coseno entre vectores TF-IDF. */
 public class CosenoTfIdf implements SimilitudStrategy {
 
     private final RepositorioCorpus corpus;
@@ -85,16 +74,15 @@ public class CosenoTfIdf implements SimilitudStrategy {
                 conTraza ? traza.pasos() : List.of());
     }
 
-    /** Vectorizador ajustado sobre el corpus, o null si no hay corpus. */
     public TfIdfVectorizador vectorizadorDelCorpus() {
         if (vectorizadorCorpus == null && corpus != null) {
             synchronized (this) {
                 if (vectorizadorCorpus == null) {
-                    List<String> textos = new ArrayList<>();
+                    ListaEnlazada<String> textos = new ListaEnlazada<>();
                     for (Articulo articulo : corpus.todos()) {
-                        textos.add(articulo.textoParaAlgoritmos());
+                        textos.insertarFinal(articulo.textoParaAlgoritmos());
                     }
-                    if (!textos.isEmpty()) {
+                    if (textos.getCantidad() > 0) {
                         vectorizadorCorpus = TfIdfVectorizador.ajustar(textos);
                     }
                 }
@@ -103,7 +91,6 @@ public class CosenoTfIdf implements SimilitudStrategy {
         return vectorizadorCorpus;
     }
 
-    /** Mezcla de dos vectores dispersos ordenados por término. */
     public static double productoPunto(ListaEnlazada<TfIdfVectorizador.Peso> a, ListaEnlazada<TfIdfVectorizador.Peso> b,
                                        Traza traza) {
         double suma = 0.0;

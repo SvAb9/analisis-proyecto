@@ -14,14 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
-/**
- * R1: recibe 2+ artículos y los algoritmos a aplicar; devuelve similitudes.
- *
- * <ul>
- *   <li>GET  /api/similitud/algoritmos: nombres de los algoritmos disponibles</li>
- *   <li>POST /api/similitud: compara todos los pares de los artículos pedidos (por id)</li>
- * </ul>
- */
+/** Endpoints de similitud (R1). */
 @RestController
 @RequestMapping("/api/similitud")
 public class SimilitudController {

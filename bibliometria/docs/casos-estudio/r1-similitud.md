@@ -78,7 +78,7 @@ IDF sobre los N = 20 abstracts. Términos comunes (los únicos que aportan al pr
 | assessment | 8 | 0.0696 | 3 | 0.0323 | 10 | 1.6466 | 0.1145 | 0.0531 | 0.0061 |
 | challenges | 1 | 0.0087 | 1 | 0.0108 | 6 | 2.0986 | 0.0182 | 0.0226 | 0.0004 |
 | education | 4 | 0.0348 | 2 | 0.0215 | 18 | 1.1001 | 0.0383 | 0.0237 | 0.0009 |
-| generative | 2 | 0.0174 | 7 | 0.0753 | 4 | 2.4351 | 0.0423 | 0.1833 | 0.0078 |
+| generative | 2 | 0.0174 | 7 | 0.0753 | 5 | 2.2528 | 0.0392 | 0.1696 | 0.0066 |
 | integrity | 1 | 0.0087 | 1 | 0.0108 | 2 | 2.9459 | 0.0256 | 0.0317 | 0.0008 |
 | intelligence | 2 | 0.0174 | 1 | 0.0108 | 20 | 1.0000 | 0.0174 | 0.0108 | 0.0002 |
 | provide | 1 | 0.0087 | 1 | 0.0108 | 10 | 1.6466 | 0.0143 | 0.0177 | 0.0003 |
@@ -87,25 +87,25 @@ IDF sobre los N = 20 abstracts. Términos comunes (los únicos que aportan al pr
 | students | 2 | 0.0174 | 1 | 0.0108 | 8 | 1.8473 | 0.0321 | 0.0199 | 0.0006 |
 
 - N = 20.0000
-- A·B = 0.0204
-- ||A|| = 0.2920
-- ||B|| = 0.3758
-- cos θ = 0.1864
-- θ = 79.2598
+- A·B = 0.0193
+- ||A|| = 0.2904
+- ||B|| = 0.3677
+- cos θ = 0.1810
+- θ = 79.5692
 
-CosenoTfIdf.comparar(A, B) = 0.1864; sin corpus (IDF solo con A y B): 0.2102
+CosenoTfIdf.comparar(A, B) = 0.1810; sin corpus (IDF solo con A y B): 0.2102
 
 ## Embeddings de oración (all-MiniLM-L6-v2)
 
 - modelo — all-MiniLM-L6-v2, dimensión 384
 - A — 233 tokens WordPiece en 1 ventana(s), mean pooling; primeras componentes [-0.0713, 0.0167, 0.0047, 0.0100, -0.0383, -0.0095, -0.0455, -0.0009, ...]
 - B — 194 tokens WordPiece en 1 ventana(s), mean pooling; primeras componentes [-0.0985, -0.0041, 0.0579, -0.0224, 0.0035, -0.0115, -0.0235, -0.0367, ...]
-- A·B = 0.7354903500418903 — suma de a_i·b_i sobre 384 componentes
+- A·B = 0.7354903118070072 — suma de a_i·b_i sobre 384 componentes
 - ||A|| = 0.9999999999999998 — raíz de la suma de a_i²
-- ||B|| = 1.000000000000001 — raíz de la suma de b_i²
-- cos θ = 0.7354903500418897 — 0.7355 / (1.0000 · 1.0000)
-- θ = 42.65133370475647 — arccos(cos θ) en grados
-- d(A, B) = 0.7273371294772601 — raíz de la suma de (a_i - b_i)²
+- ||B|| = 0.9999999999999994 — raíz de la suma de b_i²
+- cos θ = 0.7354903118070077 — 0.7355 / (1.0000 · 1.0000)
+- θ = 42.65133693809003 — arccos(cos θ) en grados
+- d(A, B) = 0.7273371820455657 — raíz de la suma de (a_i - b_i)²
 
 ## Embeddings de palabras promediados (GloVe)
 
@@ -135,20 +135,20 @@ CosenoTfIdf.comparar(A, B) = 0.1864; sin corpus (IDF solo con A y B): 0.2102
 
 | algoritmo | tipo | sim(A,B) | media 190 pares | mín | máx | puesto de (A,B) | ms por par |
 |---|---|---|---|---|---|---|---|
-| levenshtein | CLASICO | 0.2985 | 0.2809 | 0.2334 | 0.3206 | 48 de 190 | 4.122 |
-| needleman-wunsch | CLASICO | 0.0684 | 0.0530 | 0.0150 | 0.1102 | 44 de 190 | 0.310 |
-| jaccard | CLASICO | 0.0863 | 0.0914 | 0.0278 | 0.1628 | 104 de 190 | 0.163 |
-| coseno-tfidf | CLASICO | 0.1864 | 0.1016 | 0.0205 | 0.3001 | 15 de 190 | 0.192 |
-| embeddings-oracion | IA | 0.7355 | 0.5646 | 0.3540 | 0.8211 | 9 de 190 | 4.917 |
-| embeddings-palabras | IA | 0.9349 | 0.9583 | 0.9237 | 0.9848 | 179 de 190 | 0.020 |
+| levenshtein | CLASICO | 0.2985 | 0.2807 | 0.2334 | 0.3206 | 47 de 190 | 1.567 |
+| needleman-wunsch | CLASICO | 0.0684 | 0.0520 | 0.0149 | 0.1102 | 44 de 190 | 0.215 |
+| jaccard | CLASICO | 0.0863 | 0.0913 | 0.0278 | 0.1598 | 103 de 190 | 0.082 |
+| coseno-tfidf | CLASICO | 0.1810 | 0.1022 | 0.0201 | 0.3029 | 17 de 190 | 0.110 |
+| embeddings-oracion | IA | 0.7355 | 0.5623 | 0.3540 | 0.8098 | 7 de 190 | 2.507 |
+| embeddings-palabras | IA | 0.9349 | 0.9583 | 0.9237 | 0.9843 | 178 de 190 | 0.009 |
 
 Correlación de Spearman entre algoritmos sobre los 190 pares:
 
 | | levenshtein | needleman-wunsch | jaccard | coseno-tfidf | embeddings-oracion | embeddings-palabras |
 |---|---|---|---|---|---|---|
-| levenshtein | 1.00 | 0.48 | 0.13 | 0.30 | 0.23 | 0.23 |
-| needleman-wunsch | 0.48 | 1.00 | 0.43 | 0.66 | 0.38 | 0.43 |
-| jaccard | 0.13 | 0.43 | 1.00 | 0.62 | 0.38 | 0.49 |
-| coseno-tfidf | 0.30 | 0.66 | 0.62 | 1.00 | 0.66 | 0.54 |
-| embeddings-oracion | 0.23 | 0.38 | 0.38 | 0.66 | 1.00 | 0.55 |
-| embeddings-palabras | 0.23 | 0.43 | 0.49 | 0.54 | 0.55 | 1.00 |
+| levenshtein | 1.00 | 0.42 | 0.06 | 0.29 | 0.24 | 0.24 |
+| needleman-wunsch | 0.42 | 1.00 | 0.41 | 0.68 | 0.37 | 0.41 |
+| jaccard | 0.06 | 0.41 | 1.00 | 0.58 | 0.37 | 0.47 |
+| coseno-tfidf | 0.29 | 0.68 | 0.58 | 1.00 | 0.68 | 0.55 |
+| embeddings-oracion | 0.24 | 0.37 | 0.37 | 0.68 | 1.00 | 0.54 |
+| embeddings-palabras | 0.24 | 0.41 | 0.47 | 0.55 | 0.54 | 1.00 |

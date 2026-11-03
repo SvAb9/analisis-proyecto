@@ -9,17 +9,20 @@ import co.edu.uniquindio.bibliometria.algoritmos.similitud.ia.EmbeddingProvider;
 import co.edu.uniquindio.bibliometria.algoritmos.similitud.ia.SimilitudEmbeddingsOracion;
 import co.edu.uniquindio.bibliometria.algoritmos.similitud.ia.SimilitudEmbeddingsPalabras;
 import co.edu.uniquindio.bibliometria.algoritmos.similitud.ia.SimilitudEmbeddings;
+import co.edu.uniquindio.bibliometria.corpus.AbstractParser;
+import co.edu.uniquindio.bibliometria.corpus.Articulo;
+import co.edu.uniquindio.bibliometria.corpus.CorpusLoader;
+import co.edu.uniquindio.bibliometria.corpus.PdfExtractor;
+import co.edu.uniquindio.bibliometria.corpus.preprocess.PreprocesadorTexto;
 import co.edu.uniquindio.bibliometria.service.SimilitudService;
 import co.edu.uniquindio.bibliometria.infra.embeddings.EmbeddingCache;
 import co.edu.uniquindio.bibliometria.infra.embeddings.ModeloOracionProvider;
 import co.edu.uniquindio.bibliometria.infra.embeddings.Word2VecProvider;
 import co.edu.uniquindio.bibliometria.util.VectorMath;
 import co.edu.uniquindio.bibliometria.util.estructuras.ListaEnlazada;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -30,19 +33,13 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-/**
- * Genera el caso de estudio de R1 (sección 5.4 del informe) con los algoritmos reales.
- *
- * <p>Ejecutar con: {@code mvn test -Dtest=CasoEstudioR1 -Dcaso.estudio=true}. Escribe
- * {@code ../docs/casos-estudio/r1-similitud.md} y {@code r1-similitud.json}.</p>
- */
+/** Genera los datos del caso de estudio de R1: mvn test -Dtest=CasoEstudioR1 -Dcaso.estudio=true */
 class CasoEstudioR1 {
 
     private static final int ID_A = 11;
     private static final int ID_B = 16;
     private static final Path SALIDA = Path.of("../docs/casos-estudio");
 
-    /** Ids en minúscula que usa el JSON del caso de estudio (y el script del informe). */
     private static final Map<String, String> ID = Map.of("Levenshtein", "levenshtein", "NeedlemanWunsch", "needleman-wunsch",
             "Jaccard", "jaccard", "CosenoTfIdf", "coseno-tfidf", "EmbeddingsOracion", "embeddings-oracion",
             "EmbeddingsPalabras", "embeddings-palabras");
@@ -57,23 +54,23 @@ class CasoEstudioR1 {
     @Test
     void generar() throws Exception {
         assumeTrue(Boolean.getBoolean("caso.estudio"), "solo con -Dcaso.estudio=true");
-        List<String> titulos = new ArrayList<>();
-        List<String> abstracts = new ArrayList<>();
-        try (InputStream in = getClass().getResourceAsStream("/similitud/abstracts-corpus.json")) {
-            for (JsonNode n : new ObjectMapper().readTree(in)) {
-                titulos.add(n.get("titulo").asText());
-                abstracts.add(n.get("abstract").asText());
-            }
+        List<Articulo> articulos = new CorpusLoader(Path.of("data/corpus"), new PdfExtractor(), new AbstractParser(),
+                new PreprocesadorTexto()).cargar();
+        List<String> textos = new ArrayList<>();
+        for (Articulo articulo : articulos) {
+            textos.add(articulo.textoParaAlgoritmos());
         }
-        String a = abstracts.get(ID_A - 1);
-        String b = abstracts.get(ID_B - 1);
+        Articulo articuloA = articulos.get(ID_A - 1);
+        Articulo articuloB = articulos.get(ID_B - 1);
+        String a = articuloA.textoParaAlgoritmos();
+        String b = articuloB.textoParaAlgoritmos();
 
         ModeloOracionProvider minilmBase = new ModeloOracionProvider(Path.of("data/modelos/all-MiniLM-L6-v2"));
         Word2VecProvider gloveBase = new Word2VecProvider(Path.of("data/modelos/glove/glove.6B.100d.corpus.txt"));
         assumeTrue(minilmBase.disponible() && gloveBase.disponible(), "faltan modelos");
         EmbeddingCache minilm = new EmbeddingCache(minilmBase);
         EmbeddingCache glove = new EmbeddingCache(gloveBase);
-        TfIdfVectorizador corpus = TfIdfVectorizador.ajustar(abstracts);
+        TfIdfVectorizador corpus = TfIdfVectorizador.ajustar(textos);
 
         List<SimilitudStrategy> estrategias = List.of(new Levenshtein(), new NeedlemanWunsch(), new JaccardSimilitud(),
                 new CosenoTfIdf(corpus), new SimilitudEmbeddingsOracion(minilm), new SimilitudEmbeddingsPalabras(glove));
@@ -81,14 +78,14 @@ class CasoEstudioR1 {
         md.append("# Caso de estudio R1: similitud textual\n\n");
         md.append("Generado por `CasoEstudioR1` con el código del proyecto. Abstract A = artículo ").append(ID_A)
                 .append(", abstract B = artículo ").append(ID_B).append(".\n\n");
-        md.append("- **A (").append(ID_A).append(")**: ").append(titulos.get(ID_A - 1)).append("\n");
-        md.append("- **B (").append(ID_B).append(")**: ").append(titulos.get(ID_B - 1)).append("\n\n");
+        md.append("- **A (").append(ID_A).append(")**: ").append(articuloA.titulo()).append("\n");
+        md.append("- **B (").append(ID_B).append(")**: ").append(articuloB.titulo()).append("\n\n");
         json.put("idA", ID_A);
         json.put("idB", ID_B);
-        json.put("tituloA", titulos.get(ID_A - 1));
-        json.put("tituloB", titulos.get(ID_B - 1));
-        json.put("abstractA", a);
-        json.put("abstractB", b);
+        json.put("tituloA", articuloA.titulo());
+        json.put("tituloB", articuloB.titulo());
+        json.put("abstractA", articuloA.abstractCrudo());
+        json.put("abstractB", articuloB.abstractCrudo());
 
         String na = PreparadorTexto.normalizar(a);
         String nb = PreparadorTexto.normalizar(b);
@@ -109,8 +106,8 @@ class CasoEstudioR1 {
         needleman(ta, tb);
         jaccard(a, b);
         coseno(a, b, corpus);
-        ModeloOracionProvider.Detalle oa = minilmBase.vectorizarConDetalle(a);
-        ModeloOracionProvider.Detalle ob = minilmBase.vectorizarConDetalle(b);
+        ModeloOracionProvider.Detalle oa = minilmBase.vectorizarConDetalle(articuloA.abstractCrudo());
+        ModeloOracionProvider.Detalle ob = minilmBase.vectorizarConDetalle(articuloB.abstractCrudo());
         embeddings("embeddings-oracion", "Embeddings de oración (all-MiniLM-L6-v2)", oa.vector(),
                 oa.tokens() + " tokens WordPiece en " + oa.ventanas() + " ventana(s), mean pooling", ob.vector(),
                 ob.tokens() + " tokens WordPiece en " + ob.ventanas() + " ventana(s), mean pooling", minilmBase.modelo());
@@ -120,7 +117,7 @@ class CasoEstudioR1 {
                 "promedio de " + pa.palabrasConVector() + " de " + pa.palabras() + " palabras con vector", pb.vector(),
                 "promedio de " + pb.palabrasConVector() + " de " + pb.palabras() + " palabras con vector", gloveBase.modelo());
         palabrasCercanas(gloveBase);
-        resumen(estrategias, a, b, abstracts);
+        resumen(estrategias, articulos);
 
         Files.createDirectories(SALIDA);
         Files.writeString(SALIDA.resolve("r1-similitud.md"), md.toString());
@@ -325,9 +322,8 @@ class CasoEstudioR1 {
         json.put("glovePalabras", filas);
     }
 
-    /** Valores del par A-B, tiempos, y posición del par entre los 190 pares del corpus para cada algoritmo. */
-    private void resumen(List<SimilitudStrategy> estrategias, String a, String b, List<String> abstracts) {
-        int n = abstracts.size();
+    private void resumen(List<SimilitudStrategy> estrategias, List<Articulo> articulos) {
+        int n = articulos.size();
         md.append("## Resumen y contexto en el corpus\n\n");
         md.append("| algoritmo | tipo | sim(A,B) | media 190 pares | mín | máx | puesto de (A,B) | ms por par |\n");
         md.append("|---|---|---|---|---|---|---|---|\n");
@@ -340,7 +336,7 @@ class CasoEstudioR1 {
             double valorAB = 0;
             for (int i = 0; i < n; i++) {
                 for (int j = i + 1; j < n; j++) {
-                    ResultadoSimilitud r = e.comparar(abstracts.get(i), abstracts.get(j));
+                    ResultadoSimilitud r = e.comparar(SimilitudService.textoPara(e, articulos.get(i)), SimilitudService.textoPara(e, articulos.get(j)));
                     nanos += r.tiempoNs();
                     valores[k++] = r.similitud();
                     if (i == ID_A - 1 && j == ID_B - 1) {
@@ -427,7 +423,6 @@ class CasoEstudioR1 {
         return num / Math.sqrt(dx * dy);
     }
 
-    /** Rango promedio de cada valor (empates comparten rango). O(n²), suficiente para 190 valores. */
     private static double[] rangos(double[] v) {
         double[] r = new double[v.length];
         for (int i = 0; i < v.length; i++) {

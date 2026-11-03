@@ -11,9 +11,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas unitarias de Coseno TF-IDF con casos de resultado conocido.
- */
 class CosenoTfIdfTest {
 
     @Test
@@ -38,7 +35,6 @@ class CosenoTfIdfTest {
 
     @Test
     void cosenoCalculadoAMano() {
-        // Sin corpus: N = 2. "learning" está en ambos (idf = 1); "analytics" y "assessment" en uno (idf = ln(3/2)+1).
         double idfUnico = Math.log(1.5) + 1;
         double wComun = 0.5 * 1.0;
         double wUnico = 0.5 * idfUnico;

@@ -15,8 +15,6 @@ import co.edu.uniquindio.bibliometria.api.dto.ClusteringRequest;
 import co.edu.uniquindio.bibliometria.api.dto.ClusteringResponse;
 import co.edu.uniquindio.bibliometria.corpus.Articulo;
 import co.edu.uniquindio.bibliometria.corpus.RepositorioCorpus;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,9 +28,6 @@ import java.util.List;
  * <p>La matriz se calcula una sola vez y se comparte entre los tres criterios, así la única
  * diferencia entre los árboles es el criterio de enlace. El tiempo que se reporta
  * ({@code tiempoNs}) es solo el del agrupamiento, sin contar el cálculo de la matriz.</p>
- *
- * <p>Los artículos salen del {@link RepositorioCorpus}. Mientras no exista la implementación
- * del módulo de corpus se usa {@link CorpusTemporalR1}.</p>
  */
 @Service
 public class ClusteringService {
@@ -42,11 +37,6 @@ public class ClusteringService {
 
     private final SimilitudService similitud;
     private final RepositorioCorpus corpus;
-
-    @Autowired
-    public ClusteringService(SimilitudService similitud, ObjectProvider<RepositorioCorpus> corpus) {
-        this(similitud, corpus.getIfAvailable(CorpusTemporalR1::new));
-    }
 
     public ClusteringService(SimilitudService similitud, RepositorioCorpus corpus) {
         this.similitud = similitud;
@@ -64,7 +54,7 @@ public class ClusteringService {
         List<String> textos = new ArrayList<>();
         for (Articulo articulo : articulos) {
             ids.add(articulo.id());
-            textos.add(articulo.textoParaAlgoritmos());
+            textos.add(SimilitudService.textoPara(estrategia, articulo));
         }
 
         MatrizDistancias matriz = MatrizDistancias.desdeTextos(ids, textos, estrategia);

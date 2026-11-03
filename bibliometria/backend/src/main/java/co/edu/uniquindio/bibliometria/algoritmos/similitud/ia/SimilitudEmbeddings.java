@@ -8,11 +8,7 @@ import co.edu.uniquindio.bibliometria.util.VectorMath;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Parte común de los dos algoritmos con IA: obtener el embedding de cada abstract con el
- * proveedor y comparar los vectores con coseno (valor principal) y distancia euclidiana
- * (valor crudo). Una vez se tienen los vectores, la comparación es O(d).
- */
+/** Compara dos abstracts con los vectores de un modelo preentrenado. */
 public abstract class SimilitudEmbeddings implements SimilitudStrategy {
 
     private static final int COMPONENTES_EN_TRAZA = 8;
@@ -27,7 +23,6 @@ public abstract class SimilitudEmbeddings implements SimilitudStrategy {
         return proveedor;
     }
 
-    /** Un proveedor sin modelo cargado informa dimensión 0. */
     public boolean disponible() {
         return proveedor.dimension() > 0;
     }

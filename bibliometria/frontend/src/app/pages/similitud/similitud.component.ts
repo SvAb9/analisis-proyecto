@@ -1,11 +1,4 @@
 // Selección de artículos y tabla comparativa clásicos vs IA.
-//
-// Componente standalone (Angular 17+). Endpoints que usa (ver docs/contratos.md):
-//   GET  /api/corpus                -> lista de Articulo (id, titulo, autores, abstractCrudo)
-//   GET  /api/similitud/algoritmos  -> nombres de los algoritmos disponibles
-//   POST /api/similitud             -> { ids, algoritmos, conTraza } => { pares: [{ idA, idB, resultados }] }
-// Las llamadas HTTP están aquí mientras services/api.service.ts no exponga métodos de R1;
-// al integrarlo basta con mover los tres métodos marcados con "API".
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -40,7 +33,6 @@ interface SimilitudResponse {
   pares: { idA: string; idB: string; resultados: ResultadoSimilitud[] }[];
 }
 
-/** Vista armada en el cliente a partir de los pares: una matriz por algoritmo. */
 interface ResultadoAlgoritmo {
   nombre: string;
   etiqueta: string;
@@ -66,7 +58,6 @@ interface Vista {
   resumen: ResumenPar[];
 }
 
-// Nombres estables del contrato -> texto para la pantalla.
 const ETIQUETAS: Record<string, { etiqueta: string; tipo: 'CLASICO' | 'IA'; crudo: string }> = {
   Levenshtein: { etiqueta: 'Distancia de Levenshtein', tipo: 'CLASICO', crudo: 'distancia de edición' },
   NeedlemanWunsch: { etiqueta: 'Needleman-Wunsch', tipo: 'CLASICO', crudo: 'puntaje de alineamiento' },
@@ -76,7 +67,6 @@ const ETIQUETAS: Record<string, { etiqueta: string; tipo: 'CLASICO' | 'IA'; crud
   EmbeddingsPalabras: { etiqueta: 'Embeddings de palabras (GloVe)', tipo: 'IA', crudo: 'distancia euclidiana' },
 };
 
-// Rampa secuencial azul (claro -> oscuro) para la matriz: similitud 0 -> paso 100, 1 -> paso 700.
 const RAMPA = ['#cde2fb', '#b7d3f6', '#9ec5f4', '#86b6ef', '#6da7ec', '#5598e7', '#3987e5',
   '#2a78d6', '#256abf', '#1c5cab', '#184f95', '#104281', '#0d366b'];
 
@@ -321,7 +311,6 @@ export class SimilitudComponent implements OnInit {
     return RAMPA[i];
   }
 
-  // API
   private cargarCorpus(): void {
     this.http.get<{ id: string | number; titulo: string }[]>('/api/corpus').subscribe({
       next: (lista) => this.articulos.set(lista.map((a) => ({ id: String(a.id), titulo: a.titulo }))),
@@ -329,7 +318,6 @@ export class SimilitudComponent implements OnInit {
     });
   }
 
-  // API
   private cargarAlgoritmos(): void {
     this.http.get<string[]>('/api/similitud/algoritmos').subscribe({
       next: (nombres) => {
@@ -344,7 +332,6 @@ export class SimilitudComponent implements OnInit {
     });
   }
 
-  // API
   comparar(): void {
     const ids = this.articulos().filter((a) => this.seleccionados().has(a.id)).map((a) => a.id);
     this.cargando.set(true);
@@ -372,7 +359,6 @@ function alternar(conjunto: Set<string>, id: string): Set<string> {
   return copia;
 }
 
-/** Convierte la lista de pares del backend en una matriz k×k por algoritmo y el resumen clásicos vs IA. */
 function armarVista(r: SimilitudResponse, articulos: ArticuloCorpus[]): Vista {
   const indice = new Map(articulos.map((a, i) => [a.id, i] as const));
   const k = articulos.length;

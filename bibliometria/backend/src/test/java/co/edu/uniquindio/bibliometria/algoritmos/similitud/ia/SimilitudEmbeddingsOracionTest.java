@@ -14,10 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-/**
- * Pruebas de la similitud con embeddings de oración: la matemática con vectores fijos y,
- * si el modelo está descargado, el comportamiento con MiniLM real.
- */
 class SimilitudEmbeddingsOracionTest {
 
     private static final Path MODELO = Path.of("data/modelos/all-MiniLM-L6-v2");

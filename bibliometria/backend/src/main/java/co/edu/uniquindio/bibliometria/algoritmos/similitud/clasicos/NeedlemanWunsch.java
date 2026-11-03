@@ -9,24 +9,7 @@ import co.edu.uniquindio.bibliometria.util.estructuras.Pila;
 
 import java.util.List;
 
-/**
- * Alineamiento global con matriz DP (a nivel de tokens).
- *
- * <p>Alinea las secuencias de palabras de contenido de los dos abstracts. Puntajes:
- * coincidencia +1, sustitución −1, hueco (gap) −1. Con F[i][0] = i·gap y F[0][j] = j·gap:</p>
- * <pre>
- * F[i][j] = max( F[i-1][j-1] + s(a_i, b_j),   (alinear)
- *                F[i-1][j] + gap,              (hueco en B)
- *                F[i][j-1] + gap )             (hueco en A)
- * </pre>
- * <p>El alineamiento se reconstruye desde F[n][m] hacia F[0][0]; cada par se apila en una
- * {@link Pila} y al desapilar queda en orden de lectura. Similitud = coincidencias / longitud
- * del alineamiento.</p>
- *
- * <p>Tiempo Θ(n·m) para llenar la matriz más O(n + m) para reconstruir; espacio Θ(n·m).
- * Con traza activa se registran las celdas con i, j &lt;= {@link #LIMITE_TRAZA} y las coincidencias
- * del alineamiento.</p>
- */
+/** Alineamiento global de secuencias de palabras. */
 public class NeedlemanWunsch implements SimilitudStrategy {
 
     public static final int COINCIDENCIA = 1;
@@ -35,14 +18,12 @@ public class NeedlemanWunsch implements SimilitudStrategy {
     public static final String SIMBOLO_HUECO = "-";
     public static final int LIMITE_TRAZA = 25;
 
-    /** Un par del alineamiento: token de A y token de B (o "-" si es un hueco). */
     public record ParAlineado(String a, String b) {
         public boolean coincide() {
             return a.equals(b);
         }
     }
 
-    /** Resultado completo del alineamiento, útil para el caso de estudio. */
     public record Alineamiento(int[][] matriz, int puntaje, ListaEnlazada<ParAlineado> pares, int coincidencias) {}
 
     @Override
@@ -97,7 +78,6 @@ public class NeedlemanWunsch implements SimilitudStrategy {
         return reconstruir(a, b, f, traza);
     }
 
-    /** Recorre la matriz desde (n, m) hasta (0, 0) prefiriendo diagonal, luego arriba, luego izquierda. */
     private static Alineamiento reconstruir(String[] a, String[] b, int[][] f, Traza traza) {
         Pila<ParAlineado> pila = new Pila<>();
         int i = a.length;

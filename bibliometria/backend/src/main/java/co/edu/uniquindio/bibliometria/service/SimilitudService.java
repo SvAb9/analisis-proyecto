@@ -20,7 +20,6 @@ import co.edu.uniquindio.bibliometria.infra.embeddings.ModeloOracionProvider;
 import co.edu.uniquindio.bibliometria.infra.embeddings.Word2VecProvider;
 import co.edu.uniquindio.bibliometria.util.estructuras.Cola;
 import co.edu.uniquindio.bibliometria.util.estructuras.ListaEnlazada;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,16 +28,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Elige estrategias, ejecuta y compara clásicos vs IA.
- *
- * <p>Para k artículos y a algoritmos se generan a·k(k−1)/2 comparaciones. Se encolan en una
- * {@link Cola} (FIFO), una tarea por par (i, j) con i &lt; j, y cada tarea ejecuta todos los
- * algoritmos pedidos sobre ese par; así la respuesta conserva el orden de los pares.</p>
- *
- * <p>Los artículos se buscan en el {@link RepositorioCorpus}. Mientras no exista la implementación
- * del módulo de corpus se usa {@link CorpusTemporalR1}.</p>
- */
+/** Ejecuta los algoritmos de similitud sobre los pares de artículos. */
 @Service
 public class SimilitudService {
 
@@ -48,10 +38,10 @@ public class SimilitudService {
     @Autowired
     public SimilitudService(@Value("${app.modelos.oracion:data/modelos/all-MiniLM-L6-v2}") String rutaOracion,
                             @Value("${app.modelos.palabras:data/modelos/glove/glove.6B.100d.corpus.txt}") String rutaPalabras,
-                            ObjectProvider<RepositorioCorpus> corpus) {
+                            RepositorioCorpus corpus) {
         this(new EmbeddingCache(new ModeloOracionProvider(Path.of(rutaOracion))),
                 new EmbeddingCache(new Word2VecProvider(Path.of(rutaPalabras))),
-                corpus.getIfAvailable(CorpusTemporalR1::new));
+                corpus);
     }
 
     public SimilitudService(EmbeddingProvider proveedorOracion, EmbeddingProvider proveedorPalabras,
@@ -65,7 +55,6 @@ public class SimilitudService {
         estrategias.insertarFinal(new SimilitudEmbeddingsPalabras(proveedorPalabras));
     }
 
-    /** Nombres de los algoritmos que se pueden ejecutar (los de IA solo si su modelo está cargado). */
     public List<String> algoritmos() {
         List<String> nombres = new ArrayList<>();
         for (SimilitudStrategy estrategia : estrategias) {
@@ -76,7 +65,6 @@ public class SimilitudService {
         return nombres;
     }
 
-    /** Estrategia por nombre, o null. Para que R2 pueda pedir, p. ej., "CosenoTfIdf". */
     public SimilitudStrategy estrategia(String nombre) {
         for (SimilitudStrategy estrategia : estrategias) {
             if (estrategia.nombre().equals(nombre)) {
@@ -84,6 +72,10 @@ public class SimilitudService {
             }
         }
         return null;
+    }
+
+    public static String textoPara(SimilitudStrategy estrategia, Articulo articulo) {
+        return estrategia instanceof SimilitudEmbeddingsOracion ? articulo.abstractCrudo() : articulo.textoParaAlgoritmos();
     }
 
     public static boolean esIA(SimilitudStrategy estrategia) {
@@ -112,7 +104,7 @@ public class SimilitudService {
             List<ResultadoSimilitud> resultados = new ArrayList<>();
             for (SimilitudStrategy estrategia : elegidas) {
                 Traza traza = solicitud.conTraza() ? Traza.activada() : Traza.desactivada();
-                resultados.add(estrategia.comparar(tarea.a().textoParaAlgoritmos(), tarea.b().textoParaAlgoritmos(), traza));
+                resultados.add(estrategia.comparar(textoPara(estrategia, tarea.a()), textoPara(estrategia, tarea.b()), traza));
             }
             pares.add(new SimilitudResponse.Par(tarea.a().id(), tarea.b().id(), resultados));
         }

@@ -16,21 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
-/**
- * Adaptador al modelo de oraciones (ONNX/DJL o API).
- *
- * <p>Ejecuta localmente all-MiniLM-L6-v2 exportado a ONNX. Las librerías solo hacen dos cosas:
- * el tokenizador WordPiece de Hugging Face convierte el texto en ids y ONNX Runtime ejecuta la
- * red. El pooling y la normalización se hacen aquí:</p>
- * <ol>
- *   <li>Se tokeniza el abstract completo y se parte en ventanas de hasta 254 tokens, porque el
- *   modelo se entrenó con secuencias de máximo 256 (incluyendo [CLS] y [SEP]).</li>
- *   <li>Cada ventana pasa por la red y produce un vector de 384 dimensiones por token.</li>
- *   <li>Mean pooling: el vector de la ventana es el promedio de los vectores de sus tokens.</li>
- *   <li>El vector del abstract es el promedio de las ventanas, ponderado por número de tokens,
- *   normalizado a norma 1 (igual que la capa Normalize de sentence-transformers).</li>
- * </ol>
- */
+/** Ejecuta MiniLM en ONNX y promedia los vectores de sus tokens. */
 public class ModeloOracionProvider implements EmbeddingProvider, AutoCloseable {
 
     private static final Logger log = LoggerFactory.getLogger(ModeloOracionProvider.class);
@@ -80,7 +66,6 @@ public class ModeloOracionProvider implements EmbeddingProvider, AutoCloseable {
         return sesion != null;
     }
 
-    /** Vector del texto y cuántos tokens WordPiece y ventanas se usaron. */
     public record Detalle(double[] vector, int tokens, int ventanas) {}
 
     @Override
@@ -111,7 +96,6 @@ public class ModeloOracionProvider implements EmbeddingProvider, AutoCloseable {
         return new Detalle(VectorMath.normalizar(acumulado), ids.length, ventanas);
     }
 
-    /** Pasa una secuencia de ids por la red y devuelve el promedio de los vectores de sus tokens. */
     private double[] vectorizarIds(long[] ids) {
         long[][] entradaIds = {ids};
         long[][] mascara = new long[1][ids.length];

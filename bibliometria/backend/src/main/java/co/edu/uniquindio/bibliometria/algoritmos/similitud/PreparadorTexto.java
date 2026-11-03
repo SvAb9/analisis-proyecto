@@ -10,26 +10,13 @@ import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 
-/**
- * Preparación mínima de texto que necesitan los algoritmos de R1: normalización y tokenización
- * escritas carácter por carácter (sin expresiones regulares) y filtro de stopwords.
- *
- * <p>Es independiente de {@code corpus/preprocess} para que R1 se pueda probar solo. En la
- * integración puede reemplazarse por PreprocesadorTexto si se quiere un único pipeline.</p>
- *
- * <p>Las stopwords se guardan en un {@link ArbolBinarioBusqueda}: consultar si un token es
- * stopword cuesta O(log s) en promedio (s ≈ 170 palabras).</p>
- */
+/** Normaliza y tokeniza el texto para los algoritmos de similitud. */
 public final class PreparadorTexto {
 
     private static final ArbolBinarioBusqueda<String, Boolean> STOPWORDS = cargarStopwords();
 
     private PreparadorTexto() {}
 
-    /**
-     * Minúsculas, solo letras, dígitos y espacios simples. Es la entrada de Levenshtein,
-     * que trabaja a nivel de carácter. O(n).
-     */
     public static String normalizar(String texto) {
         StringBuilder salida = new StringBuilder(texto.length());
         boolean ultimoFueEspacio = true;
@@ -50,11 +37,6 @@ public final class PreparadorTexto {
         return salida.toString();
     }
 
-    /**
-     * Tokens de contenido: palabras en minúscula de al menos 2 letras, sin números puros
-     * y sin stopwords. Se devuelven en un arreglo porque los algoritmos de programación dinámica
-     * necesitan acceso por índice en O(1). O(n).
-     */
     public static String[] tokensContenido(String texto) {
         ListaEnlazada<String> tokens = new ListaEnlazada<>();
         StringBuilder actual = new StringBuilder();
@@ -112,7 +94,6 @@ public final class PreparadorTexto {
         } catch (IOException e) {
             throw new UncheckedIOException("No se pudieron leer las stopwords", e);
         }
-        // El archivo está en orden alfabético: sin rebalancear el árbol sería una lista de altura s.
         arbol.rebalancear();
         return arbol;
     }

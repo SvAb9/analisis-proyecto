@@ -9,10 +9,6 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-/**
- * Comprueba que la tokenización + mean pooling + normalización implementados a mano reproducen
- * los valores publicados en el README de sentence-transformers para all-MiniLM-L6-v2.
- */
 class ModeloOracionProviderTest {
 
     private static final Path MODELO = Path.of("data/modelos/all-MiniLM-L6-v2");

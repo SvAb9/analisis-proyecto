@@ -18,9 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Pruebas del servicio de R1 sin modelos de IA (solo los cuatro clásicos), con un corpus armado a mano.
- */
 class SimilitudServiceTest {
 
     private static final List<Articulo> ARTICULOS = List.of(
@@ -78,9 +75,10 @@ class SimilitudServiceTest {
     }
 
     @Test
-    void corpusTemporalTraeLosVeinteAbstracts() {
-        CorpusTemporalR1 temporal = new CorpusTemporalR1();
-        assertEquals(20, temporal.todos().size());
-        assertTrue(temporal.porId("11").orElseThrow().abstractCrudo().startsWith("Generative artificial intelligence"));
+    void soloElModeloDeOracionRecibeElAbstractCrudo() {
+        Articulo articulo = new Articulo("1", "Uno", List.of(), "Texto, crudo.", "texto crudo");
+        assertEquals("Texto, crudo.", SimilitudService.textoPara(servicio.estrategia("EmbeddingsOracion"), articulo));
+        assertEquals("texto crudo", SimilitudService.textoPara(servicio.estrategia("EmbeddingsPalabras"), articulo));
+        assertEquals("texto crudo", SimilitudService.textoPara(servicio.estrategia("Jaccard"), articulo));
     }
 }

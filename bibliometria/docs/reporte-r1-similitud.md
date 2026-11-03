@@ -22,7 +22,7 @@ Qué se hizo:
   - La pantalla Angular arma en el cliente las matrices y el resumen clásicos vs IA a partir de los pares, y lee el corpus de `GET /api/corpus`.
 - Se eliminó `FuenteCorpus` (lo reemplaza `RepositorioCorpus`).
 - **`corpus/Articulo` estaba vacío** también en el commit de Sara, pero `RepositorioCorpus` lo devuelve. Se definió con los campos que ya documentan el esqueleto y `contratos.md`: `id, titulo, autores (List<String>), abstractCrudo, abstractProcesado`, más `textoParaAlgoritmos()` (procesado si existe, si no crudo). **Avisar a Zuleta**: es su archivo; si prefiere otros tipos (p. ej. `autores` como String) se ajusta fácil.
-- **`service/CorpusTemporalR1`**: mientras no exista `CorpusRepository`, el servicio usa los 20 abstracts empaquetados (`resources/similitud/abstracts-corpus.json`). Cuando Zuleta registre su bean `RepositorioCorpus`, se usa automáticamente el suyo.
+- **Corpus**: el servicio recibe `CorpusRepository`, que carga los 20 PDF. MiniLM recibe el abstract crudo; los demás algoritmos, el normalizado.
 - Validado: 41 pruebas pasan con `./mvnw test`, sin omitidas. La app arranca con `./mvnw spring-boot:run` y responde los endpoints con el formato del contrato. El caso de estudio da **exactamente los mismos números** que ya estaban en el informe.
 - En el informe solo cambió el texto de la sección 5.1 (API, traza, corpus por constructor); ninguna cifra.
 
@@ -60,7 +60,7 @@ No se tocó R2, R3, corpus, despliegue ni las secciones de los demás.
 | `algoritmos/similitud/ia/*` | `EmbeddingProvider`, base común `SimilitudEmbeddings` (nueva), los 2 de IA |
 | `infra/embeddings/*` | `ModeloOracionProvider` (ONNX), `Word2VecProvider` (GloVe), `EmbeddingCache` |
 | `util/VectorMath` | Producto punto, norma, coseno, euclidiana, normalizar |
-| `service/SimilitudService`, `service/CorpusTemporalR1` (nueva) | Orquestación; corpus de respaldo mientras no exista CorpusRepository |
+| `service/SimilitudService` | Orquestación |
 | `api/SimilitudController`, `api/dto/Similitud*` | `GET /api/similitud/algoritmos`, `POST /api/similitud` |
 | `resources/similitud/stopwords-en.txt` (nuevo) | 167 stopwords en inglés |
 
@@ -69,7 +69,6 @@ No se tocó R2, R3, corpus, despliegue ni las secciones de los demás.
 - 41 pruebas unitarias (tras la sección 0) con resultados conocidos (p. ej. Levenshtein("kitten", "sitting") = 3, IDF calculado a mano, cosenos de vectores fijos). Todas pasan.
 - `ModeloOracionProviderTest`: comprueba que nuestro pooling y normalización reproducen los valores publicados por sentence-transformers para all-MiniLM-L6-v2 (0,6660 / 0,1046 / 0,1411). Coinciden con error < 0,0005.
 - `CasoEstudioR1`: generador del caso de estudio. Se ejecuta con `mvn test -Dtest=CasoEstudioR1 -Dcaso.estudio=true` y escribe `docs/casos-estudio/r1-similitud.md` y `.json`. **Todas las cifras de la sección 5.4–5.5 del informe salen de aquí**, no se escribieron a mano.
-- `src/test/resources/similitud/abstracts-corpus.json`: los 20 abstracts extraídos de los PDF y limpiados (guiones de corte de línea, ligaduras "ﬁ"), con el título real de cada artículo.
 
 ### Modelos
 

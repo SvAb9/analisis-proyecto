@@ -5,9 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Pruebas unitarias de Needleman-Wunsch con casos de resultado conocido.
- */
 class NeedlemanWunschTest {
 
     private final NeedlemanWunsch nw = new NeedlemanWunsch();
@@ -32,7 +29,6 @@ class NeedlemanWunschTest {
         NeedlemanWunsch.ParAlineado medio = al.pares().obtenerValor(1);
         assertEquals("education", medio.a());
         assertEquals(NeedlemanWunsch.SIMBOLO_HUECO, medio.b());
-        // la pila deja el alineamiento en orden de lectura
         assertEquals("higher", al.pares().obtenerValor(0).a());
         assertEquals("assessment", al.pares().obtenerValor(2).a());
     }
